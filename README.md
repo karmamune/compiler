@@ -1,18 +1,39 @@
-## Getting Started
+# Compiler Construction Project / Proyecto de Construcción de Compiladores
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This repository contains the development of a compiler/interpreter built in **Java**, following the architectural patterns and lessons from the book:
+> **"Writing Compilers and Interpreters: A Software Engineering Approach" (Third Edition) by Ronald Mak.**
 
-## Folder Structure
+---
 
-The workspace contains two folders by default, where:
+## English Description
+The goal of this project is to understand the inner workings of a compiler by implementing a modular architecture. Following Ronald Mak's approach, the project is structured into three main components:
+* **Frontend:** Scanner and Parser.
+* **Intermediate:** Intermediate Code (ICode) and Symbol Table (SymTab).
+* **Backend:** Interpreter (Executor) and Code Generator.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+I am currently working through the chapters, starting with the basic framework and the Pascal-based syntax analysis.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+### Technologies Used:
+* **Language:** Java
+* **IDE:** VS Code
+* **OS:** Linux
+* **Version Control:** Git & GitHub
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+---
 
-## Dependency Management
+## Descripción en Español
+Este repositorio contiene el desarrollo de un compilador/intérprete construido en **Java**, siguiendo los patrones de arquitectura y lecciones del libro:
+> **"Writing Compilers and Interpreters: A Software Engineering Approach" (Tercera Edición) de Ronald Mak.**
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+El objetivo principal es comprender el funcionamiento interno de un compilador mediante la implementación de una arquitectura modular. Siguiendo el enfoque del autor, el proyecto se divide en:
+* **Frontend:** Analizador léxico (Scanner) y sintáctico (Parser).
+* **Intermediate:** Código intermedio (ICode) y Tabla de Símbolos (SymTab).
+* **Backend:** Intérprete (Executor) y Generador de Código.
+
+Actualmente me encuentro desarrollando los capítulos iniciales, estableciendo el framework base y el análisis de sintaxis para un subconjunto del lenguaje Pascal.
+
+### Tecnologías utilizadas:
+* **Lenguaje:** Java
+* **IDE:** VS Code
+* **Sistema Operativo:** Linux
+* **Control de Versiones:** Git & GitHub
