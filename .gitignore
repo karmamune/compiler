@@ -1,0 +1,11 @@
+# Archivos compilados de Java
+*.class
+
+# carpetas de VSCode y binarios
+.vscode/
+bin/
+*.jar
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
