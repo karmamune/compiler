@@ -3,19 +3,24 @@ package wci.frontend;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import wci.message.*;
+import static wci.message.MessageType.SOURCE_LINE;
+
 /**
  * <h1>Source</h1>
  * 
  * <p>The framework class that represents the source program.</p>
  */
-public class Source {
+public class Source implements MessageProducer {
     public static final char EOL = '\n';      // end-of-line character
     public static final char EOF = (char) 0;  // end-of-fife character
 
-    private BufferedReader reader;  // reader for the source program
-    private String line;            // source line
-    private int lineNum;            // current source line number
-    private int currentPos;         // current source line position
+    private BufferedReader reader;          // reader for the source program
+    private String line;                    // source line
+    private int lineNum;                    // current source line number
+    private int currentPos;                 // current source line position
+
+    private MessageHandler messageHandler;  // delegate to handle messages
 
     /**
      * Constructor.
@@ -28,6 +33,26 @@ public class Source {
         this.lineNum = 0;
         this.currentPos = -2;  // set to -2 to read the first source line
         this.reader = reader;
+        this.messageHandler = new MessageHandler();
+    }
+
+    /**
+     * Getter.
+     * @return the current source line number.
+     */
+    public int getLineNum()
+    {
+        return lineNum;
+    }
+
+    /**
+     * Getter.
+     * @return the position of the next source character int the
+     * current source line.
+     */
+    public int getPosition()
+    {
+        return currentPos;
     }
 
     /**
@@ -109,6 +134,12 @@ public class Source {
         if (line != null) {
             ++lineNum;
         }
+
+        // Send a source line message containing the line number
+        // and the line text to all the listeners.
+        if (line != null) {
+            sendMessage(new Message(SOURCE_LINE, new Object[] {lineNum, line}));
+        }
     }
 
     /**
@@ -127,5 +158,32 @@ public class Source {
                 throw ex;
             }
         }
+    }
+
+    /**
+     * Add a parser message listener.
+     * @param listener the message listener to add.
+     */
+    public void addMessageListener(MessageListener listener)
+    {
+        messageHandler.addListener(listener);
+    }
+
+    /**
+     * Remove a parser message listener.
+     * @param listener the message listener to remove.
+     */
+    public void removeMessageListener(MessageListener listener)
+    {
+        messageHandler.removeListener(listener);
+    }
+
+    /**
+     * Notify listeners after setting the message.
+     * @param message the message to set.
+     */
+    public void sendMessage(Message message)
+    {
+        messageHandler.sendMessage(message);
     }
 }
