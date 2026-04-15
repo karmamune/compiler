@@ -7,6 +7,7 @@ import wci.frontend.*;
 import wci.intermediate.*;
 import wci.backend.*;
 import wci.message.*;
+import wci.util.*;
 
 import static wci.frontend.pascal.PascalTokenType.STRING;
 import static wci.message.MessageType.*;
@@ -17,11 +18,11 @@ import static wci.message.MessageType.*;
  * <p>Compile or interpret a Pascal source program.</p>
  */
 public class Pascal {
-    private Parser parser;    // language-independent parser
-    private Source source;    // language-independent scanner
-    private ICode iCode;      // generated intermediate code
-    private SymTab symTab;    // generated symbol table
-    private Backend backend;  // backend
+    private Parser parser;              // language-independent parser
+    private Source source;              // language-independent scanner
+    private ICode iCode;                // generated intermediate code
+    private SymTabStack symTabStack;    // symbol table stack
+    private Backend backend;            // backend
 
     /**
      * Compile or interpret a Pascal source program.
@@ -48,9 +49,14 @@ public class Pascal {
             source.close();
 
             iCode = parser.getICode();
-            symTab = parser.getSymTab();
+            symTabStack = parser.getSymTabStack();
 
-            backend.process(iCode, symTab);
+            if (xref) {
+                CrossReferencer crossReferencer = new CrossReferencer();
+                crossReferencer.print(symTabStack);
+            }
+
+            backend.process(iCode, symTabStack);
         }
         catch (Exception ex) {
             System.out.println("***** Internal translator error. *****");
