@@ -48,12 +48,19 @@ public class Pascal {
             parser.parse();
             source.close();
 
-            iCode = parser.getICode();
-            symTabStack = parser.getSymTabStack();
+            if (parser.getErrorCount() == 0) {
+                iCode = parser.getICode();
+                symTabStack = parser.getSymTabStack();
+                
+                if (xref) {
+                    CrossReferencer crossReferencer = new CrossReferencer();
+                    crossReferencer.print(symTabStack);
+                }
 
-            if (xref) {
-                CrossReferencer crossReferencer = new CrossReferencer();
-                crossReferencer.print(symTabStack);
+                if (intermediate) {
+                    ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
+                    treePrinter.print(iCode);
+                }
             }
 
             backend.process(iCode, symTabStack);

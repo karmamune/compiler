@@ -46,7 +46,7 @@ public class ParseTreePrinter {
      * Print the intermediate code as a parse tree.
      * @param iCode the intermediate code.
      */
-    private void print(ICode iCode)
+    public void print(ICode iCode)
     {
         ps.println("\n===== INTERMEDIATE CODE =====\n");
         printNode((ICodeNodeImpl) iCode.getRoot());
