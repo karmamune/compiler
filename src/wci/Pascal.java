@@ -9,7 +9,7 @@ import wci.backend.*;
 import wci.message.*;
 import wci.util.*;
 
-import static wci.frontend.pascal.PascalTokenType.STRING;
+// import static wci.frontend.pascal.PascalTokenType.STRING;
 import static wci.message.MessageType.*;
 
 /**
@@ -140,10 +140,10 @@ public class Pascal {
         }
     }
 
-    private static final String TOKEN_FORMAT =
-        ">>> %-15s line=%03d, pos=%2d, text=\"%s\"";
-    private static final String VALUE_FORMAT =
-        ">>>                 value=%s";
+    // private static final String TOKEN_FORMAT =
+    //     ">>> %-15s line=%03d, pos=%2d, text=\"%s\"";
+    // private static final String VALUE_FORMAT =
+    //     ">>>                 value=%s";
 
     private static final String PARSER_SUMMARY_FORMAT =
         "\n%,20d source lines." +
@@ -167,24 +167,34 @@ public class Pascal {
 
             switch (type) {
 
-                case TOKEN: {
-                    Object body[] = (Object []) message.getBody();
-                    int line = (Integer) body[0];
-                    int position = (Integer) body[1];
-                    TokenType tokenType = (TokenType) body[2];
-                    String tokenText = (String) body[3];
-                    Object tokenValue = body[4];
+                // case TOKEN: {
+                //     Object body[] = (Object []) message.getBody();
+                //     int line = (Integer) body[0];
+                //     int position = (Integer) body[1];
+                //     TokenType tokenType = (TokenType) body[2];
+                //     String tokenText = (String) body[3];
+                //     Object tokenValue = body[4];
 
-                    System.out.println(String.format(TOKEN_FORMAT, tokenType, line, position, tokenText));
+                //     System.out.println(String.format(TOKEN_FORMAT, tokenType, line, position, tokenText));
 
-                    if (tokenValue != null) {
-                        if (tokenType == STRING) {
-                            tokenValue = "\"" + tokenValue + "\"";
-                        }
+                //     if (tokenValue != null) {
+                //         if (tokenType == STRING) {
+                //             tokenValue = "\"" + tokenValue + "\"";
+                //         }
 
-                        System.out.println(String.format(VALUE_FORMAT, tokenValue));
-                    }
+                //         System.out.println(String.format(VALUE_FORMAT, tokenValue));
+                //     }
 
+                //     break;
+                // }
+
+                case PARSER_SUMMARY: {
+                    Number body[] = (Number[]) message.getBody();
+                    int statementCount = (Integer) body[0];
+                    int syntaxErrors = (Integer) body[1];
+                    float elapsedTime = (Float) body[2];
+
+                    System.out.printf(PARSER_SUMMARY_FORMAT, statementCount, syntaxErrors, elapsedTime);
                     break;
                 }
 
@@ -214,16 +224,6 @@ public class Pascal {
                     System.out.println(flagBuffer.toString());
                     break;
                 }
-
-                case PARSER_SUMMARY: {
-                    Number body[] = (Number[]) message.getBody();
-                    int statementCount = (Integer) body[0];
-                    int syntaxErrors = (Integer) body[1];
-                    float elapsedTime = (Float) body[2];
-
-                    System.out.printf(PARSER_SUMMARY_FORMAT, statementCount, syntaxErrors, elapsedTime);
-                    break;
-                }
             }
         }
     }
@@ -237,11 +237,19 @@ public class Pascal {
         "\n%,20d instructions generated." +
         "\n%,20.2f seconds total code generation time.\n";
 
+    private static final String LINE_FORMAT =
+        ">>> AT LINE %03d\n";
+
+    private static final String ASSIGN_FORMAT =
+        ">>> LINE %03d: %s = %s\n";
+
     /**
      * Listener for back end messages.
      */
     private class BackendMessageListener implements MessageListener
     {
+        private boolean firstOutputMessage = true;
+
         /**
          * Called by the back end whenever it produces a message.
          * @param message the message.
@@ -251,6 +259,35 @@ public class Pascal {
             MessageType type = message.getType();
 
             switch (type) {
+
+                case ASSIGN: {
+                    if (firstOutputMessage) {
+                        System.out.println("\n===== OUTPUT =====\n");
+                        firstOutputMessage = false;
+                    }
+
+                    Object body[] = (Object[]) message.getBody();
+                    int lineNumber = (Integer) body[0];
+                    String variableName = (String) body[1];
+                    Object value = body[2];
+
+                    System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
+                    break;
+                }
+
+                case RUNTIME_ERROR: {
+                    Object body[] = (Object []) message.getBody();
+                    String errorMessage = (String) body[0];
+                    Integer lineNumber = (Integer) body[1];
+
+                    System.out.print("*** RUNTIME ERROR");
+                    if (lineNumber != null) {
+                        System.out.print(" AT LINE " + String.format("%03d", lineNumber));
+                    }
+                    System.out.println(": " + errorMessage);
+                    break;
+                }
+
                 case INTERPRETER_SUMMARY: {
                     Number body[] = (Number[]) message.getBody();
                     int executionCount = (Integer) body[0];
