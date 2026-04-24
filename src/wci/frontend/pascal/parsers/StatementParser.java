@@ -64,7 +64,7 @@ public class StatementParser extends PascalParserTD {
 
             case REPEAT: {
                 RepeatStatementParser repeatParser = new RepeatStatementParser(this);
-                statementNode = repeatParser.parser(token);
+                statementNode = repeatParser.parse(token);
                 break;
 
             }
@@ -128,6 +128,10 @@ public class StatementParser extends PascalParserTD {
     protected void parseList(Token token, ICodeNode parentNode, PascalTokenType terminator, PascalErrorCode errorCode)
         throws Exception
     {
+        // Synchronization set for the terminator.
+        EnumSet<PascalTokenType> terminatorSet = STMT_START_SET.clone();
+        terminatorSet.add(terminator);
+
         // Loop to parse each statement until the END token
         // or the end of the source file.
         while (!(token instanceof EofToken) && (token.getType() != terminator)) {
