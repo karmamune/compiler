@@ -11,6 +11,7 @@ import wci.intermediate.*;
  */
 public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
     private int currentNestingLevel;  // current scope nesting level
+    private SymTabEntry programId;    // entry for the main program id
 
     /**
      * Constructor.
@@ -19,6 +20,24 @@ public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
     {
         this.currentNestingLevel = 0;
         add(SymTabFactory.createSymTab(currentNestingLevel));
+    }
+
+    /**
+     * Setter.
+     * @param entry the symbol table entry for the main program identifier.
+     */
+    public void setProgramId(SymTabEntry id)
+    {
+        this.programId = id;
+    }
+
+    /**
+     * Getter.
+     * @return the symbol table entry for the main program identifier.
+     */
+    public SymTabEntry getProgramId()
+    {
+        return programId;
     }
 
     /**
@@ -37,6 +56,42 @@ public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
     public SymTab getLocalSymTab()
     {
         return get(currentNestingLevel);
+    }
+
+    /**
+     * Push a new symbol table onto the symbol table stack.
+     * @return the pushed symbol table.
+     */
+    public SymTab push()
+    {
+        SymTab symTab = SymTabFactory.createSymTab(++currentNestingLevel);
+        add(symTab);
+
+        return symTab;
+    }
+
+    /**
+     * Push a symbol table onto the symbol table stack.
+     * @return the pushed symbol table.
+     */
+    public SymTab push(SymTab symTab)
+    {
+        ++currentNestingLevel;
+        add(symTab);
+
+        return symTab;
+    }
+    
+    /**
+     * Pop a symbol table off the symbol table stack.
+     * @return the popped symbol table.
+     */
+    public SymTab pop()
+    {
+        SymTab symTab = get(currentNestingLevel);
+        remove(currentNestingLevel--);
+
+        return symTab;
     }
 
     /**
@@ -66,6 +121,14 @@ public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
      */
     public SymTabEntry lookup(String name)
     {
-        return lookupLocal(name);
+        SymTabEntry foundEntry = null;
+
+        // Search the current and enclosing scopes.
+        for (int i = currentNestingLevel; (i >= 0) && (foundEntry == null); --i)
+        {
+            foundEntry = get(i).lookup(name);
+        }
+
+        return foundEntry;
     }
 }
