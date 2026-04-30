@@ -13,6 +13,8 @@ import wci.intermediate.*;
 public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTabEntry {
     private String name;                     // entry name
     private SymTab symTab;                   // parent symbol table
+    private Definition definition;           // how the identifier is defind
+    private TypeSpec typeSpec;               // type specification
     private ArrayList<Integer> lineNumbers;  // source line numbers
 
     /**
@@ -43,6 +45,42 @@ public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTa
     public SymTab getSymTab()
     {
         return symTab;
+    }
+
+    /**
+     * Setter.
+     * @param definition the definition to set.
+     */
+    public void setDefinition(Definition definition)
+    {
+        this.definition = definition;
+    }
+
+    /**
+     * Getter.
+     * @return the definition.
+     */
+    public Definition getDefinition()
+    {
+        return definition;
+    }
+
+    /**
+     * Setter.
+     * @param typeSpec the type specification to set.
+     */
+    public void setTypeSpec(TypeSpec typeSpec)
+    {
+        this.typeSpec = typeSpec;
+    }
+
+    /**
+     * Getter.
+     * @return the type specification.
+     */
+    public TypeSpec getTypeSpec()
+    {
+        return typeSpec;
     }
 
     /**
