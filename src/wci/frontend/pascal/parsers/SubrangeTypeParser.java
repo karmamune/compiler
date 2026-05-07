@@ -96,7 +96,7 @@ public class SubrangeTypeParser extends TypeSpecificationParser {
             // Min value > max value?
             else if ((minValue != null) && (maxValue != null) &&
                      ((Integer) minValue >= (Integer) maxValue)) {
-                errorHandler.flag(constantToken, INVALID_SUBRANGE_TYPE, this);
+                errorHandler.flag(constantToken, MIN_GT_MAX, this);
             }
         }
         else {

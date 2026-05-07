@@ -96,6 +96,7 @@ public class PascalParserTD extends Parser {
             symTabStack.pop();
 
             // Look for the final period.
+            token = currentToken();
             if (token.getType() != DOT) {
                 errorHandler.flag(token, MISSING_PERIOD, this);
             }
