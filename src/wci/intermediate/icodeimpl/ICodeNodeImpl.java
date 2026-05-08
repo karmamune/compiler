@@ -17,6 +17,7 @@ public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNod
     private ICodeNodeType type;             // node type
     private ICodeNode parent;               // parent node
     private ArrayList<ICodeNode> children;  // children array list
+    private TypeSpec typeSpec;              // data type specification
 
     /**
      * Constructor.
@@ -45,6 +46,24 @@ public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNod
     public ICodeNode getParent()
     {
         return parent;
+    }
+
+    /**
+     * Set the type specification to set.
+     * @param typeSpec the type specification to set.
+     */
+    public void setTypeSpec(TypeSpec typeSpec)
+    {
+        this.typeSpec = typeSpec;
+    }
+
+    /**
+     * Return the type specification of this node.
+     * @return the type specification.
+     */
+    public TypeSpec getTypeSpec()
+    {
+        return typeSpec;
     }
 
     /**
@@ -99,6 +118,7 @@ public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNod
     {
         // Create a copy with the same type.
         ICodeNodeImpl copy = (ICodeNodeImpl) ICodeFactory.createICodeNode(type);
+        copy.setTypeSpec(typeSpec);
 
         Set<Map.Entry<ICodeKey, Object>> attributes = entrySet();
         Iterator<Map.Entry<ICodeKey, Object>> it = attributes.iterator();
