@@ -139,8 +139,12 @@ public class SelectExecutor extends StatementExecutor {
             ArrayList<ICodeNode> constantsList = constantsNode.getChildren();
             for (ICodeNode constantNode : constantsList) {
 
-                // Creat a jump table entry.
+                // Create a jump table entry.
+                // Convert a single-character string constant to a character.
                 Object value = constantNode.getAttribute(VALUE);
+                if (constantNode.getType() == STRING_CONSTANT) {
+                    value = ((String) value).charAt(0);
+                }
                 jumpTable.put(value, statementNode);
             }
         }
