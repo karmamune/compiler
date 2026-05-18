@@ -51,6 +51,21 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         IDENTIFIER_SET.add(SEMICOLON);
     }
 
+    // Synchronization set to start a sublist identifier.
+    static final EnumSet<PascalTokenType> IDENTIFIER_START_SET =
+        EnumSet.of(IDENTIFIER, COMMA);
+
+    // Synchronization set to follow a sublist identifier.
+    private static final EnumSet<PascalTokenType> IDENTIFIER_FOLLOW_SET =
+        EnumSet.of(COLON, SEMICOLON);
+    static {
+        IDENTIFIER_FOLLOW_SET.addAll(DeclarationsParser.VAR_START_SET);
+    }
+
+    // Synchronization set for the , token.
+    private static final EnumSet<PascalTokenType> COMMA_SET =
+        EnumSet.of(COMMA, COLON, IDENTIFIER, SEMICOLON);
+
     // Synchronization set for the start of the next definition or declaration.
     static final EnumSet<PascalTokenType> NEXT_START_SET =
         DeclarationsParser.ROUTINE_START_SET.clone();
@@ -62,9 +77,11 @@ public class VariableDeclarationsParser extends DeclarationsParser {
     /**
      * Parse variable declarations.
      * @param token the initial token.
+     * @param parentId the symbol table entry of the parent routine's name.
+     * @return null
      * @throws Exception if an error occurred.
      */
-    public void parse(Token token)
+    public SymTabEntry parse(Token token, SymTabEntry parentId)
         throws Exception
     {
         token = synchronize(IDENTIFIER_SET);
@@ -74,7 +91,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         while (token.getType() == IDENTIFIER) {
 
             // Parse the identifier sublist and its type specification.
-            parseIdentifierSublist(token);
+            parseIdentifierSublist(token, IDENTIFIER_FOLLOW_SET, COMMA_SET);
 
             token = currentToken();
             TokenType tokenType = token.getType();
@@ -94,30 +111,18 @@ public class VariableDeclarationsParser extends DeclarationsParser {
 
             token = synchronize(IDENTIFIER_SET);
         }
+
+        return null;
     }
-
-    // Synchronization set to start a sublist identifier.
-    static final EnumSet<PascalTokenType> IDENTIFIER_START_SET =
-        EnumSet.of(IDENTIFIER, COMMA);
-
-    // Synchronization set to follow a sublist identifier.
-    private static final EnumSet<PascalTokenType> IDENTIFIER_FOLLOW_SET =
-        EnumSet.of(COLON, SEMICOLON);
-    static {
-        IDENTIFIER_FOLLOW_SET.addAll(DeclarationsParser.VAR_START_SET);
-    }
-
-    // Synchronization set for the , token.
-    private static final EnumSet<PascalTokenType> COMMA_SET =
-        EnumSet.of(COMMA, COLON, IDENTIFIER, SEMICOLON);
 
     /**
      * Parse a sublist of identifiers and thier type specification.
      * @param token the current token.
+     * @param followSet the synchronization set to follow an identifier.
      * @return the sublist of identifiers in a declaration.
      * @throws Exception if an error occurred.
      */
-    protected ArrayList<SymTabEntry> parseIdentifierSublist(Token token)
+    protected ArrayList<SymTabEntry> parseIdentifierSublist(Token token, EnumSet<PascalTokenType> followSet, EnumSet<PascalTokenType> commaSet)
         throws Exception
     {
         ArrayList<SymTabEntry> sublist = new ArrayList<SymTabEntry>();
@@ -130,30 +135,33 @@ public class VariableDeclarationsParser extends DeclarationsParser {
                 sublist.add(id);
             }
 
-            token = synchronize(COMMA_SET);
+            token = synchronize(commaSet);
             TokenType tokenType = token.getType();
 
             // Look for the comma.
             if (tokenType == COMMA) {
                 token = nextToken();  // consume the coma
 
-                if (IDENTIFIER_FOLLOW_SET.contains(token.getType())) {
+                if (followSet.contains(token.getType())) {
                     errorHandler.flag(token, MISSING_IDENTIFIER, this);
                 }
             }
             else if (IDENTIFIER_START_SET.contains(tokenType)) {
                 errorHandler.flag(token, MISSING_COMMA, this);
             }
-        } while (!IDENTIFIER_FOLLOW_SET.contains(token.getType()));
+        } while (!followSet.contains(token.getType()));
 
-        // Parse the type specification.
-        TypeSpec type = parseTypeSpec(token);
+        if (definition != PROGRAM_PARM) {
 
-        // Assign the type specification to each identifier in the list.
-        for (SymTabEntry variableId : sublist) {
-            variableId.setTypeSpec(type);
+            // Parse the type specification.
+            TypeSpec type = parseTypeSpec(token);
+
+            // Assign the type specification to each identifier in the list.
+            for (SymTabEntry variableId : sublist) {
+                variableId.setTypeSpec(type);
+            }
         }
-
+        
         return sublist;
     }
 
@@ -218,6 +226,13 @@ public class VariableDeclarationsParser extends DeclarationsParser {
             new TypeSpecificationParser(this);
         TypeSpec type = typeSpecificationParser.parse(token);
 
+        // Formal parameters and functions must have named types.
+        if ((definition != VARIABLE) && (definition != FIELD) &&
+            (type != null) && (type.getIdentifier() == null))
+        {
+            errorHandler.flag(token, INVALID_TYPE, this);
+        }
+        
         return type;
     }
 }

@@ -27,7 +27,13 @@ public class BlockParser extends PascalParserTD {
         super(parent);
     }
 
-
+    /**
+     * Parse a block.
+     * @param token the initial token.
+     * @param routineId the symbol table entry of the routine name.
+     * @return the root node of the parse tree.
+     * @throws Exception if an error occurred.
+     */
     public ICodeNode parse(Token token, SymTabEntry routineId)
         throws Exception
     {
@@ -35,7 +41,7 @@ public class BlockParser extends PascalParserTD {
         StatementParser statementParser = new StatementParser(this);
 
         // Parse any declarations.
-        declarationsParser.parse(token);
+        declarationsParser.parse(token, routineId);
 
         token = synchronize(StatementParser.STMT_START_SET);
         TokenType tokenType = token.getType();
