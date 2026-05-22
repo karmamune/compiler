@@ -46,7 +46,7 @@ public class ProgramParser extends DeclarationsParser {
         token = synchronize(PROGRAM_START_SET);
 
         // Parse the program.
-        DeclaredRoutineParser routineParser = new DeclaredRoutineParse(this);
+        DeclaredRoutineParser routineParser = new DeclaredRoutineParser(this);
         routineParser.parse(token, parentId);
 
         // Look for the final period.

@@ -284,7 +284,7 @@ public class ExpressionParser extends StatementParser {
 
             // Create a new operator node and adopt the current tree
             // as its first child.
-            ICodeNodeType nodeType = MULT_OPS_OPS_MAP.get(tokenType);
+            ICodeNodeType nodeType = MULT_OPS_OPS_MAP.get(operator);
             ICodeNode opNode = ICodeFactory.createICodeNode(nodeType);
             opNode.addChild(rootNode);
 
@@ -482,7 +482,12 @@ public class ExpressionParser extends StatementParser {
         return rootNode;
     }
 
-
+    /**
+     * Parse an identifier.
+     * @param token the current token.
+     * @return the root node of the generated parse tree.
+     * @throws Exception if an error occurred.
+     */
     private ICodeNode parseIdentifier(Token token)
         throws Exception
     {
@@ -541,6 +546,12 @@ public class ExpressionParser extends StatementParser {
                 token = nextToken();  // consume the enum constant identifier
 
                 rootNode.setTypeSpec(type);
+                break;
+            }
+
+            case FUNCTION: {
+                CallParser callParser = new CallParser(this);
+                rootNode = callParser.parse(token);
                 break;
             }
 
