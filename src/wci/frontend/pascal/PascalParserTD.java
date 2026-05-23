@@ -17,13 +17,12 @@ import static wci.message.MessageType.PARSER_SUMMARY;
 
 /**
  * <h1>PascalParserTD</h1>
- * 
+ *
  * <p>The top-down Pascal parser.</p>
  */
-public class PascalParserTD extends Parser {
-
+public class PascalParserTD extends Parser
+{
     protected static PascalErrorHandler errorHandler = new PascalErrorHandler();
-    // private SymTabEntry routineId;  // name of the routine being parsed
 
     /**
      * Constructor.
@@ -43,15 +42,6 @@ public class PascalParserTD extends Parser {
         super(parent.getScanner());
     }
 
-    // /**
-    //  * Getter.
-    //  * @return the routine identifier's symbol table entry.
-    //  */
-    // public SymTabEntry getRoutineId()
-    // {
-    //     return routineId;
-    // }
-
     /**
      * Getter.
      * @return the error handler.
@@ -63,44 +53,17 @@ public class PascalParserTD extends Parser {
 
     /**
      * Parse a Pascal source program and generate the symbol table
-     * and intermediate code.
+     * and the intermediate code.
      * @throws Exception if an error occurred.
      */
     public void parse()
         throws Exception
     {
-
         long startTime = System.currentTimeMillis();
         Predefined.initialize(symTabStack);
 
-        // ICode iCode = ICodeFactory.createICode();
-
-        // // Create a dummy program identifier symbol table entry.
-        // routineId = symTabStack.enterLocal("DummyProgramName".toLowerCase());
-        // routineId.setDefinition(DefinitionImpl.PROGRAM);
-        // symTabStack.setProgramId(routineId);
-
-        // // Push a new symbol table onto the symbol table stack and set
-        // // the routine's symbol table and intermediate code.
-        // routineId.setAttribute(ROUTINE_SYMTAB, symTabStack.push());
-        // routineId.setAttribute(ROUTINE_ICODE, iCode);
-
-        // BlockParser blockParser = new BlockParser(this);
-
         try {
             Token token = nextToken();
-
-            // // Parse a block.
-            // ICodeNode rootNode = blockParser.parse(token, routineId);
-            // iCode.setRoot(rootNode);
-            // symTabStack.pop();
-
-            // // Look for the final period.
-            // token = currentToken();
-            // if (token.getType() != DOT) {
-            //     errorHandler.flag(token, MISSING_PERIOD, this);
-            // }
-            // token = currentToken();
 
             // Parse a program.
             ProgramParser programParser = new ProgramParser(this);
@@ -109,8 +72,10 @@ public class PascalParserTD extends Parser {
 
             // Send the parser summary message.
             float elapsedTime = (System.currentTimeMillis() - startTime)/1000f;
-            sendMessage(new Message(PARSER_SUMMARY, new Number[] {token.getLineNumber(), getErrorCount(), elapsedTime}));
-
+            sendMessage(new Message(PARSER_SUMMARY,
+                                    new Number[] {token.getLineNumber(),
+                                                  getErrorCount(),
+                                                  elapsedTime}));
         }
         catch (java.io.IOException ex) {
             errorHandler.abortTranslation(IO_ERROR, this);
@@ -148,9 +113,10 @@ public class PascalParserTD extends Parser {
             // in the synchronization set.
             do {
                 token = nextToken();
-            } while (!(token instanceof EofToken) && !syncSet.contains(token.getType()));
-        }
+            } while (!(token instanceof EofToken) &&
+                     !syncSet.contains(token.getType()));
+       }
 
-        return token;
+       return token;
     }
 }

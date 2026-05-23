@@ -4,11 +4,11 @@ import wci.intermediate.SymTabKey;
 
 /**
  * <h1>SymTabKeyImpl</h1>
- * 
+ *
  * <p>Attribute keys for a symbol table entry.</p>
  */
-public enum SymTabKeyImpl implements SymTabKey {
-    
+public enum SymTabKeyImpl implements SymTabKey
+{
     // Constant.
     CONSTANT_VALUE,
 

@@ -8,24 +8,25 @@ import static wci.message.MessageType.SOURCE_LINE;
 
 /**
  * <h1>Source</h1>
- * 
+ *
  * <p>The framework class that represents the source program.</p>
  */
-public class Source implements MessageProducer {
+public class Source implements MessageProducer
+{
     public static final char EOL = '\n';      // end-of-line character
-    public static final char EOF = (char) 0;  // end-of-fife character
+    public static final char EOF = (char) 0;  // end-of-file character
 
-    private BufferedReader reader;          // reader for the source program
-    private String line;                    // source line
-    private int lineNum;                    // current source line number
-    private int currentPos;                 // current source line position
+    private BufferedReader reader;            // reader for the source program
+    private String line;                      // source line
+    private int lineNum;                      // current source line number
+    private int currentPos;                   // current source line position
 
-    private MessageHandler messageHandler;  // delegate to handle messages
+    private MessageHandler messageHandler;    // delegate to handle messages
 
     /**
      * Constructor.
      * @param reader the reader for the source program
-     * @throws IOException if an I/O error ocurred
+     * @throws IOException if an I/O error occurred
      */
     public Source(BufferedReader reader)
         throws IOException
@@ -47,7 +48,7 @@ public class Source implements MessageProducer {
 
     /**
      * Getter.
-     * @return the position of the next source character int the
+     * @return the position of the next source character in the
      * current source line.
      */
     public int getPosition()
@@ -69,12 +70,12 @@ public class Source implements MessageProducer {
             return nextChar();
         }
 
-        // At the end of file?
+        // At end of file?
         else if (line == null) {
             return EOF;
         }
 
-        // At the end of line?
+        // At end of line?
         else if ((currentPos == -1) || (currentPos == line.length())) {
             return EOL;
         }
@@ -118,7 +119,7 @@ public class Source implements MessageProducer {
         }
 
         int nextPos = currentPos + 1;
-        return nextPos < line.length() ? line.charAt(nextPos) : EOF;
+        return nextPos < line.length() ? line.charAt(nextPos) : EOL;
     }
 
     /**
@@ -138,7 +139,8 @@ public class Source implements MessageProducer {
         // Send a source line message containing the line number
         // and the line text to all the listeners.
         if (line != null) {
-            sendMessage(new Message(SOURCE_LINE, new Object[] {lineNum, line}));
+            sendMessage(new Message(SOURCE_LINE,
+                                    new Object[] {lineNum, line}));
         }
     }
 

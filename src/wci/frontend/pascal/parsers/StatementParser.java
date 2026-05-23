@@ -15,11 +15,11 @@ import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
 /**
  * <h1>StatementParser</h1>
- * 
+ *
  * <p>Parse a Pascal statement.</p>
  */
-public class StatementParser extends PascalParserTD {
-
+public class StatementParser extends PascalParserTD
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -31,7 +31,8 @@ public class StatementParser extends PascalParserTD {
 
     // Synchronization set for starting a statement.
     protected static final EnumSet<PascalTokenType> STMT_START_SET =
-        EnumSet.of(BEGIN, CASE, FOR, PascalTokenType.IF, REPEAT, WHILE, IDENTIFIER, SEMICOLON);
+        EnumSet.of(BEGIN, CASE, FOR, PascalTokenType.IF, REPEAT, WHILE,
+                   IDENTIFIER, SEMICOLON);
 
     // Synchronization set for following a statement.
     protected static final EnumSet<PascalTokenType> STMT_FOLLOW_SET =
@@ -52,16 +53,17 @@ public class StatementParser extends PascalParserTD {
         switch ((PascalTokenType) token.getType()) {
 
             case BEGIN: {
-                CompoundStatementParser compoundParser = new CompoundStatementParser(this);
+                CompoundStatementParser compoundParser =
+                    new CompoundStatementParser(this);
                 statementNode = compoundParser.parse(token);
                 break;
             }
 
-            // An assignment statement begins with a variable's identifier.
             case IDENTIFIER: {
                 String name = token.getText().toLowerCase();
                 SymTabEntry id = symTabStack.lookup(name);
-                Definition idDefn = id != null ? id.getDefinition() : UNDEFINED;
+                Definition idDefn = id != null ? id.getDefinition()
+                                               : UNDEFINED;
 
                 // Assignment statement or procedure call.
                 switch ((DefinitionImpl) idDefn) {
@@ -70,14 +72,17 @@ public class StatementParser extends PascalParserTD {
                     case VALUE_PARM:
                     case VAR_PARM:
                     case UNDEFINED: {
-                        AssignmentStatementParser assignmentParser = new AssignmentStatementParser(this);
+                        AssignmentStatementParser assignmentParser =
+                            new AssignmentStatementParser(this);
                         statementNode = assignmentParser.parse(token);
                         break;
                     }
 
                     case FUNCTION: {
-                        AssignmentStatementParser assignmentParser = new AssignmentStatementParser(this);
-                        statementNode = assignmentParser.parseFunctionNameAssignment(token);
+                        AssignmentStatementParser assignmentParser =
+                            new AssignmentStatementParser(this);
+                        statementNode =
+                            assignmentParser.parseFunctionNameAssignment(token);
                         break;
                     }
 
@@ -97,14 +102,15 @@ public class StatementParser extends PascalParserTD {
             }
 
             case REPEAT: {
-                RepeatStatementParser repeatParser = new RepeatStatementParser(this);
+                RepeatStatementParser repeatParser =
+                    new RepeatStatementParser(this);
                 statementNode = repeatParser.parse(token);
                 break;
-
             }
 
             case WHILE: {
-                WhileStatementParser whileParser = new WhileStatementParser(this);
+                WhileStatementParser whileParser =
+                    new WhileStatementParser(this);
                 statementNode = whileParser.parse(token);
                 break;
             }
@@ -153,13 +159,15 @@ public class StatementParser extends PascalParserTD {
 
     /**
      * Parse a statement list.
-     * @param token the current token.
+     * @param token the curent token.
      * @param parentNode the parent node of the statement list.
      * @param terminator the token type of the node that terminates the list.
      * @param errorCode the error code if the terminator token is missing.
      * @throws Exception if an error occurred.
      */
-    protected void parseList(Token token, ICodeNode parentNode, PascalTokenType terminator, PascalErrorCode errorCode)
+    protected void parseList(Token token, ICodeNode parentNode,
+                             PascalTokenType terminator,
+                             PascalErrorCode errorCode)
         throws Exception
     {
         // Synchronization set for the terminator.
@@ -168,26 +176,28 @@ public class StatementParser extends PascalParserTD {
 
         // Loop to parse each statement until the END token
         // or the end of the source file.
-        while (!(token instanceof EofToken) && (token.getType() != terminator)) {
+        while (!(token instanceof EofToken) &&
+               (token.getType() != terminator)) {
 
             // Parse a statement.  The parent node adopts the statement node.
             ICodeNode statementNode = parse(token);
             parentNode.addChild(statementNode);
-            
+
             token = currentToken();
             TokenType tokenType = token.getType();
 
-            // Look for the semicolon between statement.
+            // Look for the semicolon between statements.
             if (tokenType == SEMICOLON) {
                 token = nextToken();  // consume the ;
             }
 
-            // If at the start of the next assignment statement, then missing a semicolon.
+            // If at the start of the next statement, then missing a semicolon.
             else if (STMT_START_SET.contains(tokenType)) {
                 errorHandler.flag(token, MISSING_SEMICOLON, this);
             }
 
-            // Synchronize at the start of the next statement or at the terminator.
+            // Synchronize at the start of the next statement
+            // or at the terminator.
             token = synchronize(terminatorSet);
         }
 

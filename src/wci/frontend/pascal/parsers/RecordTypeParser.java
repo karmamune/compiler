@@ -17,11 +17,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>RecordTypeParser</h1>
- * 
+ *
  * <p>Parse a Pascal record type specification.</p>
  */
-public class RecordTypeParser extends TypeSpecificationParser {
-
+class RecordTypeParser extends TypeSpecificationParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -31,7 +31,7 @@ public class RecordTypeParser extends TypeSpecificationParser {
         super(parent);
     }
 
-    // Synchronization set for the END,
+    // Synchronization set for the END.
     private static final EnumSet<PascalTokenType> END_SET =
         DeclarationsParser.VAR_START_SET.clone();
     static {
@@ -40,7 +40,7 @@ public class RecordTypeParser extends TypeSpecificationParser {
     }
 
     /**
-     * Parse a Pacal record type specification.
+     * Parse a Pascal record type specification.
      * @param token the current token.
      * @return the record type specification.
      * @throws Exception if an error occurred.

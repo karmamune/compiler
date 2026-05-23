@@ -14,10 +14,11 @@ import static wci.message.MessageType.*;
 
 /**
  * <h1>CrossReferencer</h1>
- * 
+ *
  * <p>Generate a cross-reference listing.</p>
  */
-public class CrossReferencer {
+public class CrossReferencer
+{
     private static final int NAME_WIDTH = 16;
 
     private static final String NAME_FORMAT       = "%-" + NAME_WIDTH + "s";
@@ -32,7 +33,7 @@ public class CrossReferencer {
     static {
         for (int i = 0; i < INDENT_WIDTH; ++i) INDENT.append(" ");
     }
-    
+
     /**
      * Print the cross-reference table.
      * @param symTabStack the symbol table stack.
@@ -40,19 +41,20 @@ public class CrossReferencer {
     public void print(SymTabStack symTabStack)
     {
         System.out.println("\n===== CROSS-REFERENCE TABLE =====");
-        
+
         SymTabEntry programId = symTabStack.getProgramId();
         printRoutine(programId);
     }
 
     /**
      * Print a cross-reference table for a routine.
-     * @param routineId
+     * @param routineId the routine identifier's symbol table entry.
      */
     private void printRoutine(SymTabEntry routineId)
     {
         Definition definition = routineId.getDefinition();
-        System.out.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***");
+        System.out.println("\n*** " + definition.toString() +
+                           " " + routineId.getName() + " ***");
         printColumnHeadings();
 
         // Print the entries in the routine's symbol table.
@@ -60,13 +62,14 @@ public class CrossReferencer {
         ArrayList<TypeSpec> newRecordTypes = new ArrayList<TypeSpec>();
         printSymTab(symTab, newRecordTypes);
 
-        // Print cross-reference tables for any record defined in the routine.
+        // Print cross-reference tables for any records defined in the routine.
         if (newRecordTypes.size() > 0) {
             printRecords(newRecordTypes);
         }
 
         // Print any procedures and functions defined in the routine.
-        ArrayList<SymTabEntry> routineIds = (ArrayList<SymTabEntry>) routineId.getAttribute(ROUTINE_ROUTINES);
+        ArrayList<SymTabEntry> routineIds =
+            (ArrayList<SymTabEntry>) routineId.getAttribute(ROUTINE_ROUTINES);
         if (routineIds != null) {
             for (SymTabEntry rtnId : routineIds) {
                 printRoutine(rtnId);
@@ -80,8 +83,10 @@ public class CrossReferencer {
     private void printColumnHeadings()
     {
         System.out.println();
-        System.out.println(String.format(NAME_FORMAT, "Identifier") + NUMBERS_LABEL + "Type specification");
-        System.out.println(String.format(NAME_FORMAT, "----------") + NUMBERS_UNDERLINE + "------------------");
+        System.out.println(String.format(NAME_FORMAT, "Identifier")
+                           + NUMBERS_LABEL +     "Type specification");
+        System.out.println(String.format(NAME_FORMAT, "----------")
+                           + NUMBERS_UNDERLINE + "------------------");
     }
 
     /**
@@ -137,7 +142,7 @@ public class CrossReferencer {
                 if (type.getIdentifier() == null) {
                     printTypeDetail(type, recordTypes);
                 }
-                
+
                 break;
             }
 
@@ -149,6 +154,7 @@ public class CrossReferencer {
             }
 
             case TYPE: {
+
                 // Print the type details only when the type is first defined.
                 if (entry == type.getIdentifier()) {
                     printTypeDetail(type, recordTypes);
@@ -158,6 +164,7 @@ public class CrossReferencer {
             }
 
             case VARIABLE: {
+
                 // Print the type details only if the type is unnamed.
                 if (type.getIdentifier() == null) {
                     printTypeDetail(type, recordTypes);
@@ -179,7 +186,8 @@ public class CrossReferencer {
             SymTabEntry typeId = type.getIdentifier();
             String typeName = typeId != null ? typeId.getName() : "<unnamed>";
 
-            System.out.println(INDENT + "Type form = " + form + ", Type id = " + typeName);
+            System.out.println(INDENT + "Type form = " + form +
+                               ", Type id = " + typeName);
         }
     }
 
@@ -195,6 +203,7 @@ public class CrossReferencer {
         TypeForm form = type.getForm();
 
         switch ((TypeFormImpl) form) {
+
             case ENUMERATION: {
                 ArrayList<SymTabEntry> constantIds = (ArrayList<SymTabEntry>)
                     type.getAttribute(ENUMERATION_CONSTANTS);
@@ -206,7 +215,8 @@ public class CrossReferencer {
                     String name = constantId.getName();
                     Object value = constantId.getAttribute(CONSTANT_VALUE);
 
-                    System.out.println(INDENT + String.format(ENUM_CONST_FORMAT, name, value));
+                    System.out.println(INDENT + String.format(ENUM_CONST_FORMAT,
+                                                              name, value));
                 }
 
                 break;
@@ -215,7 +225,8 @@ public class CrossReferencer {
             case SUBRANGE: {
                 Object minValue = type.getAttribute(SUBRANGE_MIN_VALUE);
                 Object maxValue = type.getAttribute(SUBRANGE_MAX_VALUE);
-                TypeSpec baseTypeSpec = (TypeSpec) type.getAttribute(SUBRANGE_BASE_TYPE);
+                TypeSpec baseTypeSpec =
+                    (TypeSpec) type.getAttribute(SUBRANGE_BASE_TYPE);
 
                 System.out.println(INDENT + "--- Base type ---");
                 printType(baseTypeSpec);
@@ -226,14 +237,17 @@ public class CrossReferencer {
                 }
 
                 System.out.print(INDENT + "Range = ");
-                System.out.println(toString(minValue) + ".." + toString(maxValue));
+                System.out.println(toString(minValue) + ".." +
+                                   toString(maxValue));
 
                 break;
             }
 
             case ARRAY: {
-                TypeSpec indexType = (TypeSpec) type.getAttribute(ARRAY_INDEX_TYPE);
-                TypeSpec elementType = (TypeSpec) type.getAttribute(ARRAY_ELEMENT_TYPE);
+                TypeSpec indexType =
+                    (TypeSpec) type.getAttribute(ARRAY_INDEX_TYPE);
+                TypeSpec elementType =
+                    (TypeSpec) type.getAttribute(ARRAY_ELEMENT_TYPE);
                 int count = (Integer) type.getAttribute(ARRAY_ELEMENT_COUNT);
 
                 System.out.println(INDENT + "--- INDEX TYPE ---");
@@ -288,9 +302,14 @@ public class CrossReferencer {
         }
     }
 
-
+    /**
+     * Convert a value to a string.
+     * @param value the value.
+     * @return the string.
+     */
     private String toString(Object value)
     {
-        return value instanceof String ? "'" + (String) value + "'" : value.toString();
+        return value instanceof String ? "'" + (String) value + "'"
+                                       : value.toString();
     }
 }

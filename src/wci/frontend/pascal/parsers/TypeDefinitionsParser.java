@@ -17,11 +17,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>TypeDefinitionsParser</h1>
- * 
+ *
  * <p>Parse Pascal type definitions.</p>
  */
-public class TypeDefinitionsParser extends DeclarationsParser {
-
+public class TypeDefinitionsParser extends DeclarationsParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -61,9 +61,11 @@ public class TypeDefinitionsParser extends DeclarationsParser {
     /**
      * Parse type definitions.
      * @param token the initial token.
+     * @param parentId the symbol table entry of the parent routine's name.
+     * @return null
      * @throws Exception if an error occurred.
      */
-    public void parse(Token token)
+    public SymTabEntry parse(Token token, SymTabEntry parentId)
         throws Exception
     {
         token = synchronize(IDENTIFIER_SET);
@@ -101,7 +103,7 @@ public class TypeDefinitionsParser extends DeclarationsParser {
                 new TypeSpecificationParser(this);
             TypeSpec type = typeSpecificationParser.parse(token);
 
-            // Set identifier to be a type and set its type specification.
+            // Set identifier to be a type and set its type specificationt.
             if (typeId != null) {
                 typeId.setDefinition(TYPE);
             }
@@ -135,5 +137,7 @@ public class TypeDefinitionsParser extends DeclarationsParser {
 
             token = synchronize(IDENTIFIER_SET);
         }
+
+        return null;
     }
 }

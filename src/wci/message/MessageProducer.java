@@ -1,7 +1,12 @@
 package wci.message;
 
-public interface MessageProducer {
-
+/**
+ * <h1>MessageProducer</h1>
+ *
+ * <p>All classes that produce messages must implement this interface.</p>
+ */
+public interface MessageProducer
+{
     /**
      * Add a listener to the listener list.
      * @param listener the listener to add.
@@ -13,7 +18,7 @@ public interface MessageProducer {
      * @param listener the listener to remove.
      */
     public void removeMessageListener(MessageListener listener);
-    
+
     /**
      * Notify listeners after setting the message.
      * @param message the message to set.

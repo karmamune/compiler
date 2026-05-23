@@ -13,12 +13,12 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>Predefined</h1>
- * 
+ *
  * <p>Enter the predefined Pascal types, identifiers, and constants
- * into the symbol table.
+ * into the symbol table.</p>
  */
-public class Predefined {
-
+public class Predefined
+{
     // Predefined types.
     public static TypeSpec integerType;
     public static TypeSpec realType;
@@ -57,7 +57,7 @@ public class Predefined {
 
     /**
      * Initialize a symbol table stack with predefined identifiers.
-     * @param symTabStack the symbol table stack to initialize.
+     * @param symTab the symbol table stack to initialize.
      */
     public static void initialize(SymTabStack symTabStack)
     {
@@ -70,7 +70,7 @@ public class Predefined {
      * Initialize the predefined types.
      * @param symTabStack the symbol table stack to initialize.
      */
-    public static void initializeTypes(SymTabStack symTabStack)
+    private static void initializeTypes(SymTabStack symTabStack)
     {
         // Type integer.
         integerId = symTabStack.enterLocal("integer");
@@ -130,7 +130,7 @@ public class Predefined {
     }
 
     /**
-     * Initialize the standard procesudres and functions.
+     * Initialize the standard procedures and functions.
      * @param symTabStack the symbol table stack to initialize.
      */
     private static void initializeStandardRoutines(SymTabStack symTabStack)
@@ -165,7 +165,9 @@ public class Predefined {
      * @param defn either PROCEDURE or FUNCTION.
      * @param name the procedure or function name.
      */
-    private static SymTabEntry enterStandard(SymTabStack symTabStack, Definition defn, String name, RoutineCode routineCode)
+    private static SymTabEntry enterStandard(SymTabStack symTabStack,
+                                             Definition defn, String name,
+                                             RoutineCode routineCode)
     {
         SymTabEntry procId = symTabStack.enterLocal(name);
         procId.setDefinition(defn);

@@ -9,10 +9,13 @@ import wci.intermediate.*;
 
 /**
  * <h1>SymTabImpl</h1>
- * 
- * <p>An implementation of the symbol table.<p>
+ *
+ * <p>An implementation of the symbol table.</p>
  */
-public class SymTabImpl extends TreeMap<String, SymTabEntry> implements SymTab {
+public class SymTabImpl
+    extends TreeMap<String, SymTabEntry>
+    implements SymTab
+{
     private int nestingLevel;
 
     public SymTabImpl(int nestingLevel)

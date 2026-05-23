@@ -2,14 +2,15 @@ package wci.frontend;
 
 /**
  * <h1>Token</h1>
- * 
+ *
  * <p>The framework class that represents a token returned by the scanner.</p>
  */
-public class Token {
+public class Token
+{
     protected TokenType type;  // language-specific token type
     protected String text;     // token text
     protected Object value;    // token value
-    protected Source source;    // source
+    protected Source source;   // source
     protected int lineNum;     // line number of the token's source line
     protected int position;    // position of the first token character
 
@@ -29,8 +30,8 @@ public class Token {
     }
 
     /**
-     * Getter.
-     * @return the token type.
+     * Getter
+     * @return the token type
      */
     public TokenType getType()
     {
@@ -72,13 +73,13 @@ public class Token {
     {
         return position;
     }
-    
+
     /**
      * Default method to extract only one-character tokens from the source.
      * Subclasses can override this method to construct language-specific
-     * tokens. After extracting the token, the current source line position
+     * tokens.  After extracting the token, the current source line position
      * will be one beyond the last token character.
-     * @throws Exception if an error ocurred.
+     * @throws Exception if an error occurred.
      */
     protected void extract()
         throws Exception
@@ -103,7 +104,7 @@ public class Token {
     /**
      * Call the source's nextChar() method.
      * @return the next character from the source after moving forward.
-     * @throws Exception if an error ocurred.
+     * @throws Exception if an error occurred.
      */
     protected char nextChar()
         throws Exception
@@ -114,7 +115,7 @@ public class Token {
     /**
      * Call the source's peekChar() method.
      * @return the next character from the source without moving forward.
-     * @throws Exception if an error ocurred.
+     * @throws Exception if an error occurred.
      */
     protected char peekChar()
         throws Exception

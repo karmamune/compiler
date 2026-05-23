@@ -12,13 +12,8 @@ import static wci.intermediate.symtabimpl.SymTabKeyImpl.*;
 import static wci.intermediate.typeimpl.TypeFormImpl.*;
 import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
-/**
- * <h1>SubrangeTypeParser</h1>
- * 
- * <p>Parse a Pascal subrange type specification.</p>
- */
-public class SubrangeTypeParser extends TypeSpecificationParser {
-
+public class SubrangeTypeParser extends TypeSpecificationParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -114,7 +109,7 @@ public class SubrangeTypeParser extends TypeSpecificationParser {
      * Check a value of a type specification.
      * @param token the current token.
      * @param value the value.
-     * @param type the type specification.
+     * @param type the type specifiction.
      * @return the value.
      */
     private Object checkValueType(Token token, Object value, TypeSpec type)
@@ -123,9 +118,6 @@ public class SubrangeTypeParser extends TypeSpecificationParser {
             return value;
         }
         if (type == Predefined.integerType) {
-            return value;
-        }
-        else if (type == Predefined.integerType) {
             return value;
         }
         else if (type == Predefined.charType) {

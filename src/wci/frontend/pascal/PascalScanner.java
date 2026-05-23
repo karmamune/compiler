@@ -9,13 +9,13 @@ import static wci.frontend.pascal.PascalErrorCode.*;
 
 /**
  * <h1>PascalScanner</h1>
- * 
+ *
  * <p>The Pascal scanner.</p>
  */
-public class PascalScanner extends Scanner {
-
+public class PascalScanner extends Scanner
+{
     /**
-     * Constructor.
+     * Constructor
      * @param source the source to be used with this scanner.
      */
     public PascalScanner(Source source)
@@ -30,7 +30,7 @@ public class PascalScanner extends Scanner {
      */
     protected Token extractToken()
         throws Exception
-    {   
+    {
         skipWhiteSpace();
 
         Token token;
@@ -50,18 +50,23 @@ public class PascalScanner extends Scanner {
         else if (currentChar == '\'') {
             token = new PascalStringToken(source);
         }
-        else if (PascalTokenType.SPECIAL_SYMBOLS.containsKey(Character.toString(currentChar))) {
+        else if (PascalTokenType.SPECIAL_SYMBOLS
+                 .containsKey(Character.toString(currentChar))) {
             token = new PascalSpecialSymbolToken(source);
         }
         else {
-            token = new PascalErrorToken(source, INVALID_CHARACTER, Character.toString(currentChar));
+            token = new PascalErrorToken(source, INVALID_CHARACTER,
+                                         Character.toString(currentChar));
             nextChar();  // consume character
         }
 
         return token;
     }
 
-
+    /**
+     * Skip whitespace characters by consuming them.  A comment is whitespace.
+     * @throws Exception if an error occurred.
+     */
     private void skipWhiteSpace()
         throws Exception
     {
@@ -80,6 +85,7 @@ public class PascalScanner extends Scanner {
                     currentChar = nextChar();  // consume the '}'
                 }
             }
+
             // Not a comment.
             else {
                 currentChar = nextChar();  // consume whitespace character

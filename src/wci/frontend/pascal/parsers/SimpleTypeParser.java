@@ -17,25 +17,24 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>SimpleTypeParser</h1>
- * 
- * <p>
- * Parse a simple Pascal type (identifier, subrange, enumeration)
- * specification.
- * </p>
+ *
+ * <p>Parse a simple Pascal type (identifier, subrange, enumeration)
+ * specification.</p>
  */
-public class SimpleTypeParser extends TypeSpecificationParser {
-
+class SimpleTypeParser extends TypeSpecificationParser
+{
     /**
      * Constructor.
-     * 
      * @param parent the parent parser.
      */
-    protected SimpleTypeParser(PascalParserTD parent) {
+    protected SimpleTypeParser(PascalParserTD parent)
+    {
         super(parent);
     }
 
-    // Syncrhonization set for starting a simple type specification.
-    static final EnumSet<PascalTokenType> SIMPLE_TYPE_START_SET = ConstantDefinitionsParser.CONSTANT_START_SET.clone();
+    // Synchronization set for starting a simple type specification.
+    static final EnumSet<PascalTokenType> SIMPLE_TYPE_START_SET =
+        ConstantDefinitionsParser.CONSTANT_START_SET.clone();
     static {
         SIMPLE_TYPE_START_SET.add(LEFT_PAREN);
         SIMPLE_TYPE_START_SET.add(COMMA);
@@ -44,17 +43,18 @@ public class SimpleTypeParser extends TypeSpecificationParser {
 
     /**
      * Parse a simple Pascal type specification.
-     * 
      * @param token the current token.
      * @return the simple type specification.
      * @throws Exception if an error occurred.
      */
     public TypeSpec parse(Token token)
-            throws Exception {
+        throws Exception
+    {
         // Synchronize at the start of a simple type specification.
         token = synchronize(SIMPLE_TYPE_START_SET);
 
         switch ((PascalTokenType) token.getType()) {
+
             case IDENTIFIER: {
                 String name = token.getText().toLowerCase();
                 SymTabEntry id = symTabStack.lookup(name);
@@ -66,28 +66,33 @@ public class SimpleTypeParser extends TypeSpecificationParser {
                     // or the start of a subrange type.
                     if (definition == DefinitionImpl.TYPE) {
                         id.appendLineNumber(token.getLineNumber());
-                        token = nextToken(); // consume the identifier
+                        token = nextToken();  // consume the identifier
 
                         // Return the type of the referent type.
                         return id.getTypeSpec();
-                    } else if ((definition != CONSTANT) &&
-                            (definition != ENUMERATION_CONSTANT)) {
+                    }
+                    else if ((definition != CONSTANT) &&
+                             (definition != ENUMERATION_CONSTANT)) {
                         errorHandler.flag(token, NOT_TYPE_IDENTIFIER, this);
-                        token = nextToken(); // consume the identifier
+                        token = nextToken();  // consume the identifier
                         return null;
-                    } else {
-                        SubrangeTypeParser subrangeTypeParser = new SubrangeTypeParser(this);
+                    }
+                    else {
+                        SubrangeTypeParser subrangeTypeParser =
+                            new SubrangeTypeParser(this);
                         return subrangeTypeParser.parse(token);
                     }
-                } else {
+                }
+                else {
                     errorHandler.flag(token, IDENTIFIER_UNDEFINED, this);
-                    token = nextToken(); // consume the identifier
+                    token = nextToken();  // consume the identifier
                     return null;
                 }
             }
 
             case LEFT_PAREN: {
-                EnumerationTypeParser enumerationTypeParser = new EnumerationTypeParser(this);
+                EnumerationTypeParser enumerationTypeParser =
+                    new EnumerationTypeParser(this);
                 return enumerationTypeParser.parse(token);
             }
 

@@ -6,10 +6,13 @@ import wci.intermediate.*;
 
 /**
  * <h1>SymTabStack</h1>
- * 
+ *
  * <p>An implementation of the symbol table stack.</p>
  */
-public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
+public class SymTabStackImpl
+    extends ArrayList<SymTab>
+    implements SymTabStack
+{
     private int currentNestingLevel;  // current scope nesting level
     private SymTabEntry programId;    // entry for the main program id
 
@@ -81,7 +84,7 @@ public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
 
         return symTab;
     }
-    
+
     /**
      * Pop a symbol table off the symbol table stack.
      * @return the popped symbol table.

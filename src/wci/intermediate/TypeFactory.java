@@ -4,11 +4,11 @@ import wci.intermediate.typeimpl.*;
 
 /**
  * <h1>TypeFactory</h1>
- * 
+ *
  * <p>A factory for creating type specifications.</p>
  */
-public class TypeFactory {
-
+public class TypeFactory
+{
     /**
      * Create a type specification of a given form.
      * @param form the form.

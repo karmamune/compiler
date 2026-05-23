@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 /**
  * <h1>SymTab</h1>
- * 
+ *
  * <p>The framework interface that represents the symbol table.</p>
  */
-public interface SymTab {
-
+public interface SymTab
+{
     /**
      * Getter.
      * @return the scope nesting level of this entry.

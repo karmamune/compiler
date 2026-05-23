@@ -13,11 +13,11 @@ import static wci.intermediate.symtabimpl.DefinitionImpl.VARIABLE;
 
 /**
  * <h1>DeclarationsParser</h1>
- * 
+ *
  * <p>Parse Pascal declarations.</p>
  */
-public class DeclarationsParser extends PascalParserTD {
-
+public class DeclarationsParser extends PascalParserTD
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -50,7 +50,7 @@ public class DeclarationsParser extends PascalParserTD {
 
     /**
      * Parse declarations.
-     * To be overriden by the specialized declarations parser subclasses.
+     * To be overridden by the specialized declarations parser subclasses.
      * @param token the initial token.
      * @param parentId the symbol table entry of the parent routine's name.
      * @return null
@@ -74,7 +74,7 @@ public class DeclarationsParser extends PascalParserTD {
         if (token.getType() == TYPE) {
             token = nextToken();  // consume TYPE
 
-            TypeDefinitionsParser typeDefinitionsParser = 
+            TypeDefinitionsParser typeDefinitionsParser =
                 new TypeDefinitionsParser(this);
             typeDefinitionsParser.parse(token, null);
         }
@@ -84,7 +84,7 @@ public class DeclarationsParser extends PascalParserTD {
         if (token.getType() == VAR) {
             token = nextToken();  // consume VAR
 
-            VariableDeclarationsParser variableDeclarationsParser = 
+            VariableDeclarationsParser variableDeclarationsParser =
                 new VariableDeclarationsParser(this);
             variableDeclarationsParser.setDefinition(VARIABLE);
             variableDeclarationsParser.parse(token, null);

@@ -12,11 +12,11 @@ import static wci.intermediate.symtabimpl.SymTabKeyImpl.*;
 
 /**
  * <h1>ProgramParser</h1>
- * 
+ *
  * <p>Parse a Pascal program.</p>
  */
-public class ProgramParser extends DeclarationsParser {
-
+public class ProgramParser extends DeclarationsParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.

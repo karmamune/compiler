@@ -4,11 +4,11 @@ import wci.intermediate.ICodeNodeType;
 
 /**
  * <h1>ICodeNodeType</h1>
- * 
+ *
  * <p>Node types of the intermediate code parse tree.</p>
  */
-public enum ICodeNodeTypeImpl implements ICodeNodeType {
-
+public enum ICodeNodeTypeImpl implements ICodeNodeType
+{
     // Program structure
     PROGRAM, PROCEDURE, FUNCTION,
 

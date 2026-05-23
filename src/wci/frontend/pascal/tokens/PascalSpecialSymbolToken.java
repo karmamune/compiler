@@ -8,11 +8,11 @@ import static wci.frontend.pascal.PascalErrorCode.*;
 
 /**
  * <h1>PascalSpecialSymbolToken</h1>
- * 
- * <p>Pascal special symbol tokens.</p>
+ *
+ * <p> Pascal special symbol tokens.</p>
  */
-public class PascalSpecialSymbolToken extends PascalToken {
-
+public class PascalSpecialSymbolToken extends PascalToken
+{
     /**
      * Constructor.
      * @param source the source from where to fetch the token's characters.
@@ -25,7 +25,7 @@ public class PascalSpecialSymbolToken extends PascalToken {
     }
 
     /**
-     * Exctract a Pascal special symbol token from the source.
+     * Extract a Pascal special symbol token from the source.
      * @throws Exception if an error occurred.
      */
     protected void extract()
@@ -37,7 +37,7 @@ public class PascalSpecialSymbolToken extends PascalToken {
         type = null;
 
         switch (currentChar) {
-            
+
             // Single-character special symbols.
             case '+':  case '-':  case '*':  case '/':  case ',':
             case ';':  case '\'': case '=':  case '(':  case ')':

@@ -4,11 +4,11 @@ import wci.intermediate.TypeKey;
 
 /**
  * <h1>TypeKeyImpl</h1>
- * 
+ *
  * <p>Attribute keys for a Pascal type specification.</p>
  */
-public enum TypeKeyImpl implements TypeKey {
-
+public enum TypeKeyImpl implements TypeKey
+{
     // Enumeration
     ENUMERATION_CONSTANTS,
 

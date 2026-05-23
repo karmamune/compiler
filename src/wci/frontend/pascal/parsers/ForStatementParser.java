@@ -16,13 +16,13 @@ import static wci.intermediate.typeimpl.TypeFormImpl.ENUMERATION;
 
 /**
  * <h1>ForStatementParser</h1>
- * 
+ *
  * <p>Parse a FOR statement.</p>
  */
-public class ForStatementParser extends StatementParser {
-
+public class ForStatementParser extends StatementParser
+{
     /**
-     * Contructor.
+     * Constructor.
      * @param parent the parent parser.
      */
     public ForStatementParser(PascalParserTD parent)
@@ -65,15 +65,18 @@ public class ForStatementParser extends StatementParser {
         ICodeNode testNode = ICodeFactory.createICodeNode(TEST);
 
         // Parse the embedded initial assignment.
-        AssignmentStatementParser assignmentParser = new AssignmentStatementParser(this);
+        AssignmentStatementParser assignmentParser =
+            new AssignmentStatementParser(this);
         ICodeNode initAssignNode = assignmentParser.parse(token);
-        TypeSpec controlType = initAssignNode != null ? initAssignNode.getTypeSpec()
-                                                      : Predefined.undefinedType;
+        TypeSpec controlType = initAssignNode != null
+                                   ? initAssignNode.getTypeSpec()
+                                   : Predefined.undefinedType;
 
         // Set the current line number attribute.
         setLineNumber(initAssignNode, targetToken);
 
-        // Type check: The control variable's type must be integer or enumeration
+        // Type check: The control variable's type must be integer
+        //             or enumeration.
         if (!TypeChecker.isInteger(controlType) &&
             (controlType.getForm() != ENUMERATION))
         {
@@ -99,7 +102,9 @@ public class ForStatementParser extends StatementParser {
         }
 
         // Create a relational operator node: GT for TO, or LT for DOWNTO.
-        ICodeNode relOpNode = ICodeFactory.createICodeNode(direction == TO ? GT : LT);
+        ICodeNode relOpNode = ICodeFactory.createICodeNode(direction == TO
+                                                           ? GT : LT);
+        relOpNode.setTypeSpec(Predefined.booleanType);
 
         // Copy the control VARIABLE node. The relational operator
         // node adopts the copied VARIABLE node as its first child.
@@ -147,7 +152,8 @@ public class ForStatementParser extends StatementParser {
 
         // Create the arithmetic operator node:
         // ADD for TO, or SUBTRACT for DOWNTO.
-        ICodeNode arithOpNode = ICodeFactory.createICodeNode(direction == TO ? ADD : SUBTRACT);
+        ICodeNode arithOpNode = ICodeFactory.createICodeNode(direction == TO
+                                                             ? ADD : SUBTRACT);
         arithOpNode.setTypeSpec(Predefined.integerType);
 
         // The next operator node adopts a copy of the loop variable as its

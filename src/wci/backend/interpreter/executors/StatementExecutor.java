@@ -12,14 +12,14 @@ import static wci.message.MessageType.SOURCE_LINE;
 
 /**
  * <h1>StatementExecutor</h1>
- * 
+ *
  * <p>Execute a statement.</p>
  */
-public class StatementExecutor extends Executor {
-
+public class StatementExecutor extends Executor
+{
     /**
-     * Constructor
-     * @param parent the parent executor.
+     * Constructor.
+     * @param the parent executor.
      */
     public StatementExecutor(Executor parent)
     {
@@ -40,14 +40,15 @@ public class StatementExecutor extends Executor {
         sendSourceLineMessage(node);
 
         switch (nodeType) {
-            
+
             case COMPOUND: {
                 CompoundExecutor compoundExecutor = new CompoundExecutor(this);
                 return compoundExecutor.execute(node);
             }
 
             case ASSIGN: {
-                AssignmentExecutor assignmentExecutor = new AssignmentExecutor(this);
+                AssignmentExecutor assignmentExecutor =
+                    new AssignmentExecutor(this);
                 return assignmentExecutor.execute(node);
             }
 

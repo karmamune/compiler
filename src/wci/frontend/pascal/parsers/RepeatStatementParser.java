@@ -12,11 +12,11 @@ import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 
 /**
  * <h1>RepeatStatementParser</h1>
- * 
+ *
  * <p>Parse a Pascal REPEAT statement.</p>
  */
-public class RepeatStatementParser extends StatementParser {
-
+public class RepeatStatementParser extends StatementParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -49,13 +49,12 @@ public class RepeatStatementParser extends StatementParser {
 
         // Parse the expression.
         // The TEST node adopts the expression subtree as its only child.
-        // The LOOP node adopts the TEST node.
         ExpressionParser expressionParser = new ExpressionParser(this);
         ICodeNode exprNode = expressionParser.parse(token);
         testNode.addChild(exprNode);
         loopNode.addChild(testNode);
 
-        // type check: The test expression must be boolean.
+        // Type check: The test expression must be boolean.
         TypeSpec exprType = exprNode != null ? exprNode.getTypeSpec()
                                              : Predefined.undefinedType;
         if (!TypeChecker.isBoolean(exprType)) {

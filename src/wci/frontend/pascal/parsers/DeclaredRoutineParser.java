@@ -17,11 +17,11 @@ import static wci.intermediate.symtabimpl.RoutineCodeImpl.*;
 
 /**
  * <h1>DeclaredRoutineParser</h1>
- * 
+ *
  * <p>Parse a main program routine or a declared procedure or function.</p>
  */
-public class DeclaredRoutineParser extends DeclarationsParser {
-
+public class DeclaredRoutineParser extends DeclarationsParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -50,6 +50,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
 
         // Initialize.
         switch ((PascalTokenType) routineType) {
+
             case PROGRAM: {
                 token = nextToken();  // consume PROGRAM
                 routineDefn = DefinitionImpl.PROGRAM;
@@ -106,7 +107,8 @@ public class DeclaredRoutineParser extends DeclarationsParser {
             symTabStack.setProgramId(routineId);
         }
 
-        // Non-forwarded procedure or function: Append to the parent's list or routines.
+        // Non-forwarded procedure or function: Append to the parent's list
+        //                                      of routines.
         else if (routineId.getAttribute(ROUTINE_CODE) != FORWARD) {
             ArrayList<SymTabEntry> subroutines = (ArrayList<SymTabEntry>)
                                        parentId.getAttribute(ROUTINE_ROUTINES);
@@ -115,7 +117,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
 
         // If the routine was forwarded, there should not be
         // any formal parameters or a function return type.
-        // But parent them anyway if they're there.
+        // But parse them anyway if they're there.
         if (routineId.getAttribute(ROUTINE_CODE) == FORWARD) {
             if (token.getType() != SEMICOLON) {
                 errorHandler.flag(token, ALREADY_FORWARDED, this);
@@ -123,7 +125,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
             }
         }
 
-        // Parse the routine's formal parameters and function return type
+        // Parse the routine's formal parameters and function return type.
         else {
             parseHeader(token, routineId);
         }
@@ -164,7 +166,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
      * Parse a routine's name.
      * @param token the current token.
      * @param routineDefn how the routine is defined.
-     * @param dummyName  a dummy name in case of parsing problem.
+     * @param dummyName a dummy name in case of parsing problem.
      * @return the symbol table entry of the declared routine's name.
      * @throws Exception if an error occurred.
      */
@@ -218,7 +220,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
 
         // If this is a function, parse and set its return type.
         if (routineId.getDefinition() == DefinitionImpl.FUNCTION) {
-            VariableDeclarationsParser variableDeclarationsParser = 
+            VariableDeclarationsParser variableDeclarationsParser =
                 new VariableDeclarationsParser(this);
             variableDeclarationsParser.setDefinition(DefinitionImpl.FUNCTION);
             TypeSpec type = variableDeclarationsParser.parseTypeSpec(token);
@@ -330,7 +332,8 @@ public class DeclaredRoutineParser extends DeclarationsParser {
      * @return the sublist of symbol table entries for the parm identifiers.
      * @throws Exception if an error occurred.
      */
-    private ArrayList<SymTabEntry> parseParmSublist(Token token, SymTabEntry routineId)
+    private ArrayList<SymTabEntry> parseParmSublist(Token token,
+                                                    SymTabEntry routineId)
         throws Exception
     {
         boolean isProgram = routineId.getDefinition() == DefinitionImpl.PROGRAM;
@@ -353,11 +356,13 @@ public class DeclaredRoutineParser extends DeclarationsParser {
         }
 
         // Parse the parameter sublist and its type specification.
-        VariableDeclarationsParser variableDeclarationsParser = 
+        VariableDeclarationsParser variableDeclarationsParser =
             new VariableDeclarationsParser(this);
         variableDeclarationsParser.setDefinition(parmDefn);
         ArrayList<SymTabEntry> sublist =
-            variableDeclarationsParser.parseIdentifierSublist(token, PARAMETER_FOLLOW_SET, COMMA_SET);
+            variableDeclarationsParser.parseIdentifierSublist(
+                                           token, PARAMETER_FOLLOW_SET,
+                                           COMMA_SET);
         token = currentToken();
         tokenType = token.getType();
 
@@ -371,7 +376,8 @@ public class DeclaredRoutineParser extends DeclarationsParser {
             }
 
             // If at the start of the next sublist, then missing a semicolon.
-            else if (VariableDeclarationsParser.NEXT_START_SET.contains(tokenType)) {
+            else if (VariableDeclarationsParser.
+                         NEXT_START_SET.contains(tokenType)) {
                 errorHandler.flag(token, MISSING_SEMICOLON, this);
             }
 

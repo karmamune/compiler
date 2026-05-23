@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 /**
  * <h1>ICodeNode</h1>
- * 
+ *
  * <p>The interface for a node of the intermediate code.</p>
  */
-public interface ICodeNode {
-
+public interface ICodeNode
+{
     /**
      * Getter.
      * @return the node type.
@@ -23,7 +23,7 @@ public interface ICodeNode {
 
     /**
      * Set the type specification of this node.
-     * @param typeSpec the specification to set.
+     * @param typeSpec the type sprcification to set.
      */
     public void setTypeSpec(TypeSpec typeSpec);
 

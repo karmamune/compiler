@@ -9,11 +9,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>TypeChecker</h1>
- * 
+ *
  * <p>Perform type checking.</p>
  */
-public class TypeChecker {
-
+public class TypeChecker
+{
     /**
      * Check if a type specification is integer.
      * @param type the type specification to check.
@@ -37,7 +37,7 @@ public class TypeChecker {
 
     /**
      * Check if a type specification is real.
-     * @param type the type specification check.
+     * @param type the type specification to check.
      * @return true if real, else false.
      */
     public static boolean isReal(TypeSpec type)
@@ -105,7 +105,8 @@ public class TypeChecker {
      * @param valueType the value type specification.
      * @return true if the value can be assigned to the target, else false.
      */
-    public static boolean areAssignmentCompatible(TypeSpec targetType, TypeSpec valueType)
+    public static boolean areAssignmentCompatible(TypeSpec targetType,
+                                                  TypeSpec valueType)
     {
         if ((targetType == null) || (valueType == null)) {
             return false;
@@ -126,9 +127,10 @@ public class TypeChecker {
             compatible = true;
         }
 
-        // String := string
+        // string := string
         else {
-            compatible = targetType.isPascalString() && valueType.isPascalString();
+            compatible =
+                targetType.isPascalString() && valueType.isPascalString();
         }
 
         return compatible;
@@ -140,7 +142,8 @@ public class TypeChecker {
      * @param type2 the second type specification to check.
      * @return true if the types can be compared to each other, else false.
      */
-    public static boolean areComparisonCompatible(TypeSpec type1, TypeSpec type2)
+    public static boolean areComparisonCompatible(TypeSpec type1,
+                                                  TypeSpec type2)
     {
         if ((type1 == null) || (type2 == null)) {
             return false;

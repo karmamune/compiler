@@ -12,14 +12,14 @@ import static wci.backend.interpreter.RuntimeErrorCode.*;
 
 /**
  * <h1>SelectExecutor</h1>
- * 
+ *
  * <p>Execute a SELECT statement. Optimized.</p>
  */
-public class SelectExecutor extends StatementExecutor {
-
+public class SelectExecutor extends StatementExecutor
+{
     /**
      * Constructor.
-     * @param parent the parent executor.
+     * @param the parent executor.
      */
     public SelectExecutor(Executor parent)
     {
@@ -30,10 +30,11 @@ public class SelectExecutor extends StatementExecutor {
     //                   entry value is the jump table.
     // Jump table: entry key is a selection value,
     //             entry value is the branch statement.
-    private static HashMap<ICodeNode, HashMap<Object, ICodeNode>> jumpCache = new HashMap<ICodeNode, HashMap<Object, ICodeNode>>();
+    private static HashMap<ICodeNode, HashMap<Object, ICodeNode>> jumpCache =
+        new HashMap<ICodeNode, HashMap<Object, ICodeNode>>();
 
     /**
-     * Execute a SELECT statement.
+     * Execute SELECT statement.
      * @param node the root node of the statement.
      * @return null.
      */
@@ -65,59 +66,6 @@ public class SelectExecutor extends StatementExecutor {
         ++executionCount;  // count the SELECT statement itself
         return null;
     }
-
-    // /**
-    //  * Search the SELECT_BRANCHes to find a match.
-    //  * @param selectValue the value to match.
-    //  * @param selectChildren the children of the SELECT node.
-    //  * @return ICodeNode.
-    //  */
-    // private ICodeNode searchBranches(Object selectValue, ArrayList<ICodeNode> selectChildren)
-    // {
-    //     // Loop over the SELECT_BRANCHes to find a match.
-    //     for (int i = 1; i < selectChildren.size(); ++i) {
-    //         ICodeNode branchNode = selectChildren.get(i);
-
-    //         if (searchConstants(selectValue, branchNode)) {
-    //             return branchNode;
-    //         }
-    //     }
-
-    //     return null;
-    // }
-
-    
-    // private boolean searchConstants(Object selectValue, ICodeNode branchNode)
-    // {
-    //     // Are the values integer or string?
-    //     boolean integerMode = selectValue instanceof Integer;
-
-    //     // Get the list of SELECT_CONSTANTS values.
-    //     ICodeNode constantsNode = branchNode.getChildren().get(0);
-    //     ArrayList<ICodeNode> constantsList = constantsNode.getChildren();
-
-    //     // Search the list of constants.
-    //     if (selectValue instanceof Integer) {
-    //         for (ICodeNode constantNode : constantsList) {
-    //             int constant = (Integer) constantNode.getAttribute(VALUE);
-
-    //             if (((Integer) selectValue) == constant) {
-    //                 return true;  // match
-    //             }
-    //         }
-    //     }
-    //     else {
-    //         for (ICodeNode constantNode : constantsList) {
-    //             String constant = (String) constantNode.getAttribute(VALUE);
-
-    //             if (((String) selectValue).equals(constant)) {
-    //                 return true;  // match
-    //             }
-    //         }
-    //     }
-
-    //     return false;  // no match
-    // }
 
     /**
      * Create a jump table for a SELECT node.

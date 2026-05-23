@@ -14,11 +14,11 @@ import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 
 /**
  * <h1>AssignmentStatementParser</h1>
- * 
- * <p>Parse a Pascal assignment satement.</p>
+ *
+ * <p>Parse a Pascal assignment statement.</p>
  */
-public class AssignmentStatementParser extends StatementParser {
-
+public class AssignmentStatementParser extends StatementParser
+{
     // Set to true to parse a function name
     // as the target of an assignment.
     private boolean isFunctionTarget = false;
@@ -56,14 +56,14 @@ public class AssignmentStatementParser extends StatementParser {
         VariableParser variableParser = new VariableParser(this);
         ICodeNode targetNode = isFunctionTarget
                                ? variableParser.parseFunctionNameTarget(token)
-                               : variableParser.parse(token); 
+                               : variableParser.parse(token);
         TypeSpec targetType = targetNode != null ? targetNode.getTypeSpec()
                                                  : Predefined.undefinedType;
 
         // The ASSIGN node adopts the variable node as its first child.
         assignNode.addChild(targetNode);
 
-        // Synchorinize on the := token.
+        // Synchronize on the := token.
         token = synchronize(COLON_EQUALS_SET);
         if (token.getType() == COLON_EQUALS) {
             token = nextToken();  // consume the :=
@@ -91,9 +91,9 @@ public class AssignmentStatementParser extends StatementParser {
 
     /**
      * Parse an assignment to a function name.
-     * @param token Token.
-     * @return ICodeNode.
-     * @throws Exception.
+     * @param token Token
+     * @return ICodeNode
+     * @throws Exception
      */
     public ICodeNode parseFunctionNameAssignment(Token token)
         throws Exception

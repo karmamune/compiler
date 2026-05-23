@@ -3,15 +3,15 @@ package wci.intermediate;
 import java.util.ArrayList;
 
 /**
- * <h1>SymTabStack</h1>
- * 
- * <p>The interface for the symbol table stack.<p>
+ * <h1>SymTabImpl</h1>
+ *
+ * <p>The interface for the symbol table stack.</p>
  */
-public interface SymTabStack {
-
+public interface SymTabStack
+{
     /**
      * Setter.
-     * @param entry the symbol table entry for the main program identifier
+     * @param entry the symbol table entry for the main program identifier.
      */
     public void setProgramId(SymTabEntry entry);
 
@@ -33,7 +33,6 @@ public interface SymTabStack {
      */
     public SymTab getLocalSymTab();
 
-
     /**
      * Push a new symbol table onto the stack.
      * @return the pushed symbol table.
@@ -48,13 +47,13 @@ public interface SymTabStack {
     public SymTab push(SymTab symTab);
 
     /**
-     * Pop a symbol table off the stack,
+     * Pop a symbol table off the stack.
      * @return the popped symbol table.
      */
     public SymTab pop();
 
     /**
-     * Create and enter a new entry which is a the top of the stack.
+     * Create and enter a new entry into the local symbol table.
      * @param name the name of the entry.
      * @return the new entry.
      */
@@ -63,7 +62,7 @@ public interface SymTabStack {
     /**
      * Look up an existing symbol table entry in the local symbol table.
      * @param name the name of the entry.
-     * @return the entry, or null if it does not exits.
+     * @return the entry, or null if it does not exist.
      */
     public SymTabEntry lookupLocal(String name);
 

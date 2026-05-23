@@ -17,11 +17,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>VariableDeclarationsParser</h1>
- * 
+ *
  * <p>Parse Pascal variable declarations.</p>
  */
-public class VariableDeclarationsParser extends DeclarationsParser {
-
+public class VariableDeclarationsParser extends DeclarationsParser
+{
     private Definition definition;  // how to define the identifier
 
     /**
@@ -116,13 +116,16 @@ public class VariableDeclarationsParser extends DeclarationsParser {
     }
 
     /**
-     * Parse a sublist of identifiers and thier type specification.
+     * Parse a sublist of identifiers and their type specification.
      * @param token the current token.
      * @param followSet the synchronization set to follow an identifier.
      * @return the sublist of identifiers in a declaration.
      * @throws Exception if an error occurred.
      */
-    protected ArrayList<SymTabEntry> parseIdentifierSublist(Token token, EnumSet<PascalTokenType> followSet, EnumSet<PascalTokenType> commaSet)
+    protected ArrayList<SymTabEntry> parseIdentifierSublist(
+                                         Token token,
+                                         EnumSet<PascalTokenType> followSet,
+                                         EnumSet<PascalTokenType> commaSet)
         throws Exception
     {
         ArrayList<SymTabEntry> sublist = new ArrayList<SymTabEntry>();
@@ -140,7 +143,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
 
             // Look for the comma.
             if (tokenType == COMMA) {
-                token = nextToken();  // consume the coma
+                token = nextToken();  // consume the comma
 
                 if (followSet.contains(token.getType())) {
                     errorHandler.flag(token, MISSING_IDENTIFIER, this);
@@ -161,7 +164,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
                 variableId.setTypeSpec(type);
             }
         }
-        
+
         return sublist;
     }
 
@@ -190,7 +193,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
                 errorHandler.flag(token, IDENTIFIER_REDEFINED, this);
             }
 
-            token = nextToken();  // consume the identifier token
+            token = nextToken();   // consume the identifier token
         }
         else {
             errorHandler.flag(token, MISSING_IDENTIFIER, this);
@@ -215,7 +218,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         // Synchronize on the : token.
         token = synchronize(COLON_SET);
         if (token.getType() == COLON) {
-            token = nextToken();  // consume the :
+            token = nextToken(); // consume the :
         }
         else {
             errorHandler.flag(token, MISSING_COLON, this);
@@ -232,7 +235,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         {
             errorHandler.flag(token, INVALID_TYPE, this);
         }
-        
+
         return type;
     }
 }

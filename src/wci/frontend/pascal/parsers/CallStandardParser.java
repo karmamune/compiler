@@ -13,8 +13,8 @@ import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 import static wci.intermediate.typeimpl.TypeFormImpl.*;
 
-public class CallStandardParser extends CallParser {
-
+public class CallStandardParser extends CallParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -38,7 +38,7 @@ public class CallStandardParser extends CallParser {
         RoutineCode routineCode = (RoutineCode) pfId.getAttribute(ROUTINE_CODE);
         callNode.setAttribute(ID, pfId);
 
-        token = nextToken();  // consume procedure or function identifier
+        token = nextToken(); // consume procedure or function identifier
 
         switch ((RoutineCodeImpl) routineCode) {
             case READ:
@@ -58,7 +58,8 @@ public class CallStandardParser extends CallParser {
             case EXP:
             case LN:
             case SIN:
-            case SQRT:    return parseArctanCosExpLnSinSqrt(token, callNode, pfId);
+            case SQRT:    return parseArctanCosExpLnSinSqrt(token, callNode,
+                                                            pfId);
 
             case PRED:
             case SUCC:    return parsePredSucc(token, callNode, pfId);
@@ -82,11 +83,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseReadReadln(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseReadReadln(Token token, ICodeNode callNode,
+                                      SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, true, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, true, false);
         callNode.addChild(parmsNode);
 
         // Read must have parameters.
@@ -107,11 +110,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseWriteWriteln(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseWriteWriteln(Token token, ICodeNode callNode,
+                                        SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, true);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, true);
         callNode.addChild(parmsNode);
 
         // Write must have parameters.
@@ -132,11 +137,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseEofEoln(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseEofEoln(Token token, ICodeNode callNode,
+                                   SymTabEntry pfId)
         throws Exception
     {
-        // Parse any actua parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        // Parse any actual parameters.
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be no actual parameters.
@@ -147,7 +154,6 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-
     /**
      * Parse a call to abs or sqr.
      * @param token the current token.
@@ -156,11 +162,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseAbsSqr(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseAbsSqr(Token token, ICodeNode callNode,
+                                  SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one integer or real parameter.
@@ -182,18 +190,21 @@ public class CallStandardParser extends CallParser {
     }
 
     /**
-     * Parse a call to arctan, cos, exp, ln, sin or sqrt.
+     * Parse a call to arctan, cos, exp, ln, sin, or sqrt.
      * @param token the current token.
      * @param callNode the CALL node.
      * @param pfId the symbol table entry of the standard routine name.
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseArctanCosExpLnSinSqrt(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseArctanCosExpLnSinSqrt(Token token,
+                                                 ICodeNode callNode,
+                                                 SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one integer or real parameter.
@@ -204,7 +215,7 @@ public class CallStandardParser extends CallParser {
 
             if ((argType == Predefined.integerType) ||
                 (argType == Predefined.realType)) {
-                callNode.setTypeSpec(Predefined.realType);    
+                callNode.setTypeSpec(Predefined.realType);
             }
             else {
                 errorHandler.flag(token, INVALID_TYPE, this);
@@ -213,20 +224,22 @@ public class CallStandardParser extends CallParser {
 
         return callNode;
     }
-    
+
     /**
      * Parse a call to pred or succ.
      * @param token the current token.
      * @param callNode the CALL node.
      * @param pfId the symbol table entry of the standard routine name.
      * @return ICodeNode the CALL node.
-     * @throws Exception if an error ocurred.
+     * @throws Exception if an error occurred.
      */
-    private ICodeNode parsePredSucc(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parsePredSucc(Token token, ICodeNode callNode,
+                                    SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one integer or enumeration parameter.
@@ -256,11 +269,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseChr(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseChr(Token token, ICodeNode callNode,
+                               SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one integer parameter.
@@ -288,11 +303,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseOdd(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseOdd(Token token, ICodeNode callNode,
+                               SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one integer parameter.
@@ -320,11 +337,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseOrd(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseOrd(Token token, ICodeNode callNode,
+                               SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one character or enumeration parameter.
@@ -353,11 +372,13 @@ public class CallStandardParser extends CallParser {
      * @return ICodeNode the CALL node.
      * @throws Exception if an error occurred.
      */
-    private ICodeNode parseRoundTrunc(Token token, ICodeNode callNode, SymTabEntry pfId)
+    private ICodeNode parseRoundTrunc(Token token, ICodeNode callNode,
+                                      SymTabEntry pfId)
         throws Exception
     {
         // Parse any actual parameters.
-        ICodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    false, false, false);
         callNode.addChild(parmsNode);
 
         // There should be one real parameter.
@@ -377,11 +398,17 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-
+    /**
+     * Check the number of actual parameters.
+     * @param token the current token.
+     * @param parmsNode the PARAMETERS node.
+     * @param count the correct number of parameters.
+     * @return true if the count is correct.
+     */
     private boolean checkParmCount(Token token, ICodeNode parmsNode, int count)
     {
         if ( ((parmsNode == null) && (count == 0)) ||
-              (parmsNode.getChildren().size() == count) ) {
+             (parmsNode.getChildren().size() == count) ) {
             return true;
         }
         else {

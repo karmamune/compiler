@@ -12,21 +12,25 @@ import static wci.backend.interpreter.RuntimeErrorCode.*;
 
 /**
  * <h1>LoopExecutor</h1>
- * 
+ *
  * <p>Execute a loop statement.</p>
  */
-public class LoopExecutor extends StatementExecutor {
-
+public class LoopExecutor extends StatementExecutor
+{
     /**
      * Constructor.
-     * @param parent the parent executor.
+     * @param the parent executor.
      */
     public LoopExecutor(Executor parent)
     {
         super(parent);
     }
 
-
+    /**
+     * Execute a loop statement.
+     * @param node the root node of the statement.
+     * @return null.
+     */
     public Object execute(ICodeNode node)
     {
         boolean exitLoop = false;
@@ -42,7 +46,8 @@ public class LoopExecutor extends StatementExecutor {
 
             // Execute the children of the LOOP node.
             for (ICodeNode child : loopChildren) {
-                ICodeNodeTypeImpl childType = (ICodeNodeTypeImpl) child.getType();
+                ICodeNodeTypeImpl childType =
+                                      (ICodeNodeTypeImpl) child.getType();
 
                 // TEST node?
                 if (childType == TEST) {
@@ -57,7 +62,7 @@ public class LoopExecutor extends StatementExecutor {
                     statementExecutor.execute(child);
                 }
 
-                // Exit if the TEST expression value is true.
+                // Exit if the TEST expression value is true,
                 if (exitLoop) {
                     break;
                 }

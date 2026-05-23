@@ -10,10 +10,13 @@ import wci.intermediate.*;
 
 /**
  * <h1>ICodeNodeImpl</h1>
- * 
+ *
  * <p>An implementation of a node of the intermediate code.</p>
  */
-public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNode {
+public class ICodeNodeImpl
+    extends HashMap<ICodeKey, Object>
+    implements ICodeNode
+{
     private ICodeNodeType type;             // node type
     private ICodeNode parent;               // parent node
     private ArrayList<ICodeNode> children;  // children array list
@@ -49,7 +52,7 @@ public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNod
     }
 
     /**
-     * Set the type specification to set.
+     * Set the type specification of this node.
      * @param typeSpec the type specification to set.
      */
     public void setTypeSpec(TypeSpec typeSpec)
@@ -116,8 +119,9 @@ public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNod
      */
     public ICodeNode copy()
     {
-        // Create a copy with the same type.
-        ICodeNodeImpl copy = (ICodeNodeImpl) ICodeFactory.createICodeNode(type);
+        // Create a copy with the same type and type specification.
+        ICodeNodeImpl copy =
+            (ICodeNodeImpl) ICodeFactory.createICodeNode(type);
         copy.setTypeSpec(typeSpec);
 
         Set<Map.Entry<ICodeKey, Object>> attributes = entrySet();

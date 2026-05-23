@@ -5,11 +5,11 @@ import wci.intermediate.icodeimpl.ICodeNodeImpl;
 
 /**
  * <h1>ICodeFactory</h1>
- * 
+ *
  * <p>A factory for creating objects that implement the intermediate code.</p>
  */
-public class ICodeFactory {
-
+public class ICodeFactory
+{
     /**
      * Create and return an intermediate code implementation.
      * @return the intermediate code implementation.

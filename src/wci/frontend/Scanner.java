@@ -2,11 +2,12 @@ package wci.frontend;
 
 /**
  * <h1>Scanner</h1>
- * 
- * <p>A language-independent framework class. This abstract scanner class
+ *
+ * <p>A language-independent framework class.  This abstract scanner class
  * will be implemented by language-specific subclasses.</p>
  */
-public abstract class Scanner {
+public abstract class Scanner
+{
     protected Source source;     // source
     private Token currentToken;  // current token
 
@@ -30,7 +31,7 @@ public abstract class Scanner {
     /**
      * Return next token from the source.
      * @return the next token.
-     * @throws Exception if an error ocurred.
+     * @throws Exception if an error occurred.
      */
     public Token nextToken()
         throws Exception
@@ -51,7 +52,7 @@ public abstract class Scanner {
     /**
      * Call the source's currentChar() method.
      * @return the current character from the source.
-     * @throws Exception if an error ocurred.
+     * @throws Exception if an error occurred.
      */
     public char currentChar()
         throws Exception

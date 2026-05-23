@@ -11,11 +11,13 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>TypeSpecImpl</h1>
- * 
+ *
  * <p>A Pascal type specification implementation.</p>
  */
-public class TypeSpecImpl extends HashMap<TypeKey, Object> implements TypeSpec {
-
+public class TypeSpecImpl
+    extends HashMap<TypeKey, Object>
+    implements TypeSpec
+{
     private TypeForm form;           // type form
     private SymTabEntry identifier;  // type identifier
 
@@ -36,7 +38,7 @@ public class TypeSpecImpl extends HashMap<TypeKey, Object> implements TypeSpec {
     public TypeSpecImpl(String value)
     {
         this.form = ARRAY;
-    
+
         TypeSpec indexType = new TypeSpecImpl(SUBRANGE);
         indexType.setAttribute(SUBRANGE_BASE_TYPE, Predefined.integerType);
         indexType.setAttribute(SUBRANGE_MIN_VALUE, 1);
@@ -46,9 +48,9 @@ public class TypeSpecImpl extends HashMap<TypeKey, Object> implements TypeSpec {
         setAttribute(ARRAY_ELEMENT_TYPE, Predefined.charType);
         setAttribute(ARRAY_ELEMENT_COUNT, value.length());
     }
-    
+
     /**
-     * Getter.
+     * Getter
      * @return the type form.
      */
     public TypeForm getForm()
@@ -75,7 +77,7 @@ public class TypeSpecImpl extends HashMap<TypeKey, Object> implements TypeSpec {
     }
 
     /**
-     * Set attribute of the specification.
+     * Set an attribute of the specification.
      * @param key the attribute key.
      * @param value the attribute value.
      */
@@ -94,7 +96,9 @@ public class TypeSpecImpl extends HashMap<TypeKey, Object> implements TypeSpec {
         return this.get(key);
     }
 
-
+    /**
+     * @return true if this is a Pascal string type.
+     */
     public boolean isPascalString()
     {
         if (form == ARRAY) {
@@ -114,6 +118,7 @@ public class TypeSpecImpl extends HashMap<TypeKey, Object> implements TypeSpec {
      */
     public TypeSpec baseType()
     {
-        return form == SUBRANGE ? (TypeSpec) getAttribute(SUBRANGE_BASE_TYPE) : this;
+        return form == SUBRANGE ? (TypeSpec) getAttribute(SUBRANGE_BASE_TYPE)
+                                : this;
     }
 }

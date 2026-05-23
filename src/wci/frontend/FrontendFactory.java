@@ -5,11 +5,11 @@ import wci.frontend.pascal.PascalScanner;
 
 /**
  * <h1>FrontendFactory</h1>
- * 
+ *
  * <p>A factory class that creates parsers for specific source languages.</p>
  */
-public class FrontendFactory {
-
+public class FrontendFactory
+{
     /**
      * Create a parser.
      * @param language the name of the source language (e.g., "Pascal").
@@ -18,19 +18,23 @@ public class FrontendFactory {
      * @return the parser.
      * @throws Exception if an error occurred.
      */
-    public static Parser createParser(String language, String type, Source source)
+    public static Parser createParser(String language, String type,
+                                      Source source)
         throws Exception
     {
-        if (language.equalsIgnoreCase("Pascal") && type.equalsIgnoreCase("top-down"))
+        if (language.equalsIgnoreCase("Pascal") &&
+            type.equalsIgnoreCase("top-down"))
         {
             Scanner scanner = new PascalScanner(source);
             return new PascalParserTD(scanner);
         }
         else if (!language.equalsIgnoreCase("Pascal")) {
-            throw new Exception("Parser factory: Invalid language '" + language + "'");
+            throw new Exception("Parser factory: Invalid language '" +
+                                language + "'");
         }
         else {
-            throw new Exception("Parser factory: Invalid type '" + type + "'");
+            throw new Exception("Parser factory: Invalid type '" +
+                                type + "'");
         }
     }
 }

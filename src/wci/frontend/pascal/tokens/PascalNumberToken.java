@@ -8,11 +8,11 @@ import static wci.frontend.pascal.PascalErrorCode.*;
 
 /**
  * <h1>PascalNumberToken</h1>
- * 
+ *
  * <p>Pascal number tokens (integer and real).</p>
  */
-public class PascalNumberToken extends PascalToken {
-
+public class PascalNumberToken extends PascalToken
+{
     private static final int MAX_EXPONENT = 37;
 
     /**
@@ -39,7 +39,7 @@ public class PascalNumberToken extends PascalToken {
     }
 
     /**
-     * Exctract a Pascal number token from the source.
+     * Extract a Pascal number token from the source.
      * @param textBuffer the buffer to append the token's characters.
      * @throws Exception if an error occurred.
      */
@@ -85,7 +85,7 @@ public class PascalNumberToken extends PascalToken {
         // There cannot be an exponent if we already saw a ".." token.
         currentChar = currentChar();
         if (!sawDotDot && ((currentChar == 'E') || (currentChar == 'e'))) {
-            type = REAL; // exponent, so token type is REAL
+            type = REAL;  // exponent, so token type is REAL
             textBuffer.append(currentChar);
             currentChar = nextChar();  // consume 'E' or 'e'
 
@@ -111,7 +111,8 @@ public class PascalNumberToken extends PascalToken {
 
         // Compute the value of a real number token.
         else if (type == REAL) {
-            float floatValue = computeFloatValue(wholeDigits, fractionDigits, exponentDigits, exponentSign);
+            float floatValue = computeFloatValue(wholeDigits, fractionDigits,
+                                                 exponentDigits, exponentSign);
 
             if (type != ERROR) {
                 value = new Float(floatValue);
@@ -154,7 +155,8 @@ public class PascalNumberToken extends PascalToken {
      * @param digits the string of digits.
      * @return the integer value.
      */
-    private int computeIntegerValue(String digits) {
+    private int computeIntegerValue(String digits)
+    {
         // Return 0 if no digits.
         if (digits == null) {
             return 0;
@@ -168,7 +170,8 @@ public class PascalNumberToken extends PascalToken {
         // as long as there is no overflow.
         while ((index < digits.length()) && (integerValue >= prevValue)) {
             prevValue = integerValue;
-            integerValue = 10*integerValue + Character.getNumericValue(digits.charAt(index++));
+            integerValue = 10*integerValue +
+                           Character.getNumericValue(digits.charAt(index++));
         }
 
         // No overflow:  Return the integer value.
@@ -192,7 +195,9 @@ public class PascalNumberToken extends PascalToken {
      * @param exponentSign the exponent sign.
      * @return the float value.
      */
-    private float computeFloatValue(String wholeDigits, String fractionDigits, String exponentDigits, char exponentSign) {
+    private float computeFloatValue(String wholeDigits, String fractionDigits,
+                                    String exponentDigits, char exponentSign)
+    {
         double floatValue = 0.0;
         int exponentValue = computeIntegerValue(exponentDigits);
         String digits = wholeDigits;  // whole and fraction digits
@@ -219,7 +224,8 @@ public class PascalNumberToken extends PascalToken {
         // Loop over the digits to compute the float value.
         int index = 0;
         while (index < digits.length()) {
-            floatValue = 10*floatValue + Character.getNumericValue(digits.charAt(index++));
+            floatValue = 10*floatValue +
+                         Character.getNumericValue(digits.charAt(index++));
         }
 
         // Adjust the float value based on the exponent value.

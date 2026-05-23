@@ -10,14 +10,13 @@ import static wci.intermediate.symtabimpl.SymTabKeyImpl.*;
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
-
 /**
  * <h1>BlockParser</h1>
- * 
+ *
  * <p>Parse a Pascal block.</p>
  */
-public class BlockParser extends PascalParserTD {
-
+public class BlockParser extends PascalParserTD
+{
     /**
      * Constructor.
      * @param parent the parent parser.

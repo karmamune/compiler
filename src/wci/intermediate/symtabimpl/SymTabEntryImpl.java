@@ -7,13 +7,16 @@ import wci.intermediate.*;
 
 /**
  * <h1>SymTabEntryImpl</h1>
- * 
+ *
  * <p>An implementation of a symbol table entry.</p>
  */
-public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTabEntry {
+public class SymTabEntryImpl
+    extends HashMap<SymTabKey, Object>
+    implements SymTabEntry
+{
     private String name;                     // entry name
     private SymTab symTab;                   // parent symbol table
-    private Definition definition;           // how the identifier is defind
+    private Definition definition;           // how the identifier is defined
     private TypeSpec typeSpec;               // type specification
     private ArrayList<Integer> lineNumbers;  // source line numbers
 

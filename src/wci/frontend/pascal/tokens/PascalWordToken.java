@@ -7,11 +7,11 @@ import static wci.frontend.pascal.PascalTokenType.*;
 
 /**
  * <h1>PascalWordToken</h1>
- * 
+ *
  * <p> Pascal word tokens (identifiers and reserved words).</p>
  */
-public class PascalWordToken extends PascalToken {
-
+public class PascalWordToken extends PascalToken
+{
     /**
      * Constructor.
      * @param source the source from where to fetch the token's characters.
@@ -23,14 +23,17 @@ public class PascalWordToken extends PascalToken {
         super(source);
     }
 
-
+    /**
+     * Extract a Pascal word token from the source.
+     * @throws Exception if an error occurred.
+     */
     protected void extract()
         throws Exception
     {
         StringBuilder textBuffer = new StringBuilder();
         char currentChar = currentChar();
 
-        // Get the word characters (letter or difit). The scanner has
+        // Get the word characters (letter or digit).  The scanner has
         // already determined that the first character is a letter.
         while (Character.isLetterOrDigit(currentChar)) {
             textBuffer.append(currentChar);

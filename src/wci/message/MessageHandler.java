@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 /**
  * <h1>MessageHandler</h1>
- * 
+ *
  * <p>A helper class to which message producer classes delegate the task of
- * maintainig and notifying listeners.</p>
+ * maintaining and notifying listeners.</p>
  */
-public class MessageHandler {
+public class MessageHandler
+{
     private Message message;                       // message
     private ArrayList<MessageListener> listeners;  // listener list
 
@@ -21,7 +22,7 @@ public class MessageHandler {
     }
 
     /**
-     * Add listener to the listener list.
+     * Add a listener to the listener list.
      * @param listener the listener to add.
      */
     public void addListener(MessageListener listener)
@@ -48,7 +49,10 @@ public class MessageHandler {
         notifyListeners();
     }
 
-
+    /**
+     * Notify each listener in the listener list by calling the listener's
+     * messageReceived() method.
+     */
     private void notifyListeners()
     {
         for (MessageListener listener : listeners) {

@@ -14,10 +14,11 @@ import static wci.intermediate.symtabimpl.DefinitionImpl.*;
 
 /**
  * <h1>ParseTreePrinter</h1>
- * 
+ *
  * <p>Print a parse tree.</p>
  */
-public class ParseTreePrinter {
+public class ParseTreePrinter
+{
     private static final int INDENT_WIDTH = 4;
     private static final int LINE_WIDTH = 80;
 
@@ -28,7 +29,7 @@ public class ParseTreePrinter {
     private StringBuilder line;  // output line
 
     /**
-     * Constructor.
+     * Constructor
      * @param ps the output print stream.
      */
     public ParseTreePrinter(PrintStream ps)
@@ -38,7 +39,7 @@ public class ParseTreePrinter {
         this.indentation = "";
         this.line = new StringBuilder();
 
-        // This ident is INDENT_WIDTH spaces.
+        // The indent is INDENT_WIDTH spaces.
         this.indent = "";
         for (int i = 0; i < INDENT_WIDTH; ++i) {
             this.indent += " ";
@@ -51,8 +52,8 @@ public class ParseTreePrinter {
      */
     public void print(SymTabStack symTabStack)
     {
-        ps.println("\n===== INTERMEDIATE CODE =====\n");
-        
+        ps.println("\n===== INTERMEDIATE CODE =====");
+
         SymTabEntry programId = symTabStack.getProgramId();
         printRoutine(programId);
     }
@@ -64,7 +65,8 @@ public class ParseTreePrinter {
     private void printRoutine(SymTabEntry routineId)
     {
         Definition definition = routineId.getDefinition();
-        System.out.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***\n");
+        System.out.println("\n*** " + definition.toString() +
+                           " " + routineId.getName() + " ***\n");
 
         // Print the intermediate code in the routine's symbol table entry.
         ICode iCode = (ICode) routineId.getAttribute(ROUTINE_ICODE);
@@ -73,7 +75,8 @@ public class ParseTreePrinter {
         }
 
         // Print any procedures and functions defined in the routine.
-        ArrayList<SymTabEntry> routineIds = (ArrayList<SymTabEntry>) routineId.getAttribute(ROUTINE_ROUTINES);
+        ArrayList<SymTabEntry> routineIds =
+            (ArrayList<SymTabEntry>) routineId.getAttribute(ROUTINE_ROUTINES);
         if (routineIds != null) {
             for (SymTabEntry rtnId : routineIds) {
                 printRoutine(rtnId);
@@ -143,7 +146,8 @@ public class ParseTreePrinter {
         // If the value is a symbol table entry, use the identifier's name.
         // Else just use the value string.
         boolean isSymTabEntry = value instanceof SymTabEntry;
-        String valueString = isSymTabEntry ? ((SymTabEntry) value).getName() : value.toString();
+        String valueString = isSymTabEntry ? ((SymTabEntry) value).getName()
+                                           : value.toString();
 
         String text = keyString.toLowerCase() + "=\"" + valueString + "\"";
         append(" "); append(text);
@@ -186,7 +190,7 @@ public class ParseTreePrinter {
             String typeName;
             SymTabEntry typeId = typeSpec.getIdentifier();
 
-            // Named type: Print an artificial type identifier name.
+            // Named type: Print the type identifier's name.
             if (typeId != null) {
                 typeName = typeId.getName();
             }
@@ -201,6 +205,7 @@ public class ParseTreePrinter {
             indentation = saveMargin;
         }
     }
+
 
     /**
      * Append text to the output line.

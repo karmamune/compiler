@@ -16,11 +16,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>TypeSpecificationParser</h1>
- * 
+ *
  * <p>Parse a Pascal type specification.</p>
  */
-public class TypeSpecificationParser extends PascalParserTD {
-
+class TypeSpecificationParser extends PascalParserTD
+{
     /**
      * Constructor.
      * @param parent the parent parser.

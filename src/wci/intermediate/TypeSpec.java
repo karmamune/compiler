@@ -2,20 +2,20 @@ package wci.intermediate;
 
 /**
  * <h1>TypeSpec</h1>
- * 
+ *
  * <p>The interface for a type specification.</p>
  */
-public interface TypeSpec {
-
+public interface TypeSpec
+{
     /**
-     * Getter.
+     * Getter
      * @return the type form.
      */
     public TypeForm getForm();
 
     /**
      * Setter.
-     * @param identifier the type identifier (symbol table entry)
+     * @param identifier the type identifier (symbol table entry).
      */
     public void setIdentifier(SymTabEntry identifier);
 
@@ -26,7 +26,7 @@ public interface TypeSpec {
     public SymTabEntry getIdentifier();
 
     /**
-     * Get the value of an attribute of the specification.
+     * Set an attribute of the specification.
      * @param key the attribute key.
      * @param value the attribute value.
      */

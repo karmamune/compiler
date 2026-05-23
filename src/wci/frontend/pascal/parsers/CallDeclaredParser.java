@@ -10,11 +10,11 @@ import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
 /**
  * <h1>DeclaredCallParser</h1>
- * 
+ *
  * <p>Parse a called to a declared procedure or function.</p>
  */
-public class CallDeclaredParser extends CallParser {
-
+public class CallDeclaredParser extends CallParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -41,7 +41,8 @@ public class CallDeclaredParser extends CallParser {
 
         token = nextToken();  // consume procedure or function identifier
 
-        ICodeNode parmsNode = parseActualParameters(token, pfId, true, false, false);
+        ICodeNode parmsNode = parseActualParameters(token, pfId,
+                                                    true, false, false);
 
         callNode.addChild(parmsNode);
         return callNode;

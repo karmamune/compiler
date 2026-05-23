@@ -25,11 +25,11 @@ import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
 /**
  * <h1>VariableParser</h1>
- * 
+ *
  * <p>Parse a Pascal variable.</p>
  */
-public class VariableParser extends StatementParser {
-
+public class VariableParser extends StatementParser
+{
     // Set to true to parse a function name
     // as the target of an assignment.
     private boolean isFunctionTarget = false;
@@ -43,7 +43,6 @@ public class VariableParser extends StatementParser {
         super(parent);
     }
 
-    // Synchronization set to start a subscript or a field.
     private static final EnumSet<PascalTokenType> SUBSCRIPT_FIELD_START_SET =
         EnumSet.of(LEFT_BRACKET, DOT);
 
@@ -120,8 +119,8 @@ public class VariableParser extends StatementParser {
             // Parse array subscripts or record fields.
             while (SUBSCRIPT_FIELD_START_SET.contains(token.getType())) {
                 ICodeNode subFldNode = token.getType() == LEFT_BRACKET
-                                            ? parseSubscripts(variableType)
-                                            : parseField(variableType);
+                                       ? parseSubscripts(variableType)
+                                       : parseField(variableType);
                 token = currentToken();
 
                 // Update the variable's type.
@@ -159,6 +158,7 @@ public class VariableParser extends StatementParser {
 
             // The current variable is an array.
             if (variableType.getForm() == ARRAY) {
+
                 // Parse the subscript expression.
                 ICodeNode exprNode = expressionParser.parse(token);
                 TypeSpec exprType = exprNode != null ? exprNode.getTypeSpec()
@@ -172,11 +172,12 @@ public class VariableParser extends StatementParser {
                     errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
                 }
 
-                // The SUBCRIPTS node adopts the subscript expression tree.
+                // The SUBSCRIPTS node adopts the subscript expression tree.
                 subscriptsNode.addChild(exprNode);
 
                 // Update the variable's type.
-                variableType = (TypeSpec) variableType.getAttribute(ARRAY_ELEMENT_TYPE);
+                variableType =
+                    (TypeSpec) variableType.getAttribute(ARRAY_ELEMENT_TYPE);
             }
 
             // Not an array type, so too many subscripts.

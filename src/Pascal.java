@@ -1,5 +1,3 @@
-package wci;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -14,15 +12,16 @@ import static wci.message.MessageType.*;
 
 /**
  * <h1>Pascal</h1>
- * 
+ *
  * <p>Compile or interpret a Pascal source program.</p>
  */
-public class Pascal {
-    private Parser parser;              // language-independent parser
-    private Source source;              // language-independent scanner
-    private ICode iCode;                // generated intermediate code
-    private SymTabStack symTabStack;    // symbol table stack
-    private Backend backend;            // backend
+public class Pascal
+{
+    private Parser parser;            // language-independent parser
+    private Source source;            // language-independent scanner
+    private ICode iCode;              // generated intermediate code
+    private SymTabStack symTabStack;  // symbol table stack
+    private Backend backend;          // backend
 
     /**
      * Compile or interpret a Pascal source program.
@@ -40,7 +39,7 @@ public class Pascal {
             source.addMessageListener(new SourceMessageListener());
 
             parser = FrontendFactory.createParser("Pascal", "top-down", source);
-            parser.addMessageListener(new ParseMessageListener());
+            parser.addMessageListener(new ParserMessageListener());
 
             backend = BackendFactory.createBackend(operation);
             backend.addMessageListener(new BackendMessageListener());
@@ -53,17 +52,18 @@ public class Pascal {
 
                 SymTabEntry programId = symTabStack.getProgramId();
                 iCode = (ICode) programId.getAttribute(ROUTINE_ICODE);
-                
+
                 if (xref) {
                     CrossReferencer crossReferencer = new CrossReferencer();
                     crossReferencer.print(symTabStack);
                 }
 
                 if (intermediate) {
-                    ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
+                    ParseTreePrinter treePrinter =
+                                         new ParseTreePrinter(System.out);
                     treePrinter.print(symTabStack);
                 }
-                
+
                 backend.process(iCode, symTabStack);
             }
         }
@@ -74,7 +74,8 @@ public class Pascal {
     }
 
     private static final String FLAGS = "[-ix]";
-    private static final String USAGE = "Usage: Pascal execute|compile " + FLAGS + " <source file path>";
+    private static final String USAGE =
+        "Usage: Pascal execute|compile " + FLAGS + " <source file path>";
 
     /**
      * The main method.
@@ -87,7 +88,8 @@ public class Pascal {
             String operation = args[0];
 
             // Operation.
-            if (!(operation.equalsIgnoreCase("compile") || operation.equalsIgnoreCase("execute"))) {
+            if (!(   operation.equalsIgnoreCase("compile")
+                  || operation.equalsIgnoreCase("execute"))) {
                 throw new Exception();
             }
 
@@ -135,7 +137,8 @@ public class Pascal {
                     int lineNumber = (Integer) body[0];
                     String lineText = (String) body[1];
 
-                    System.out.println(String.format(SOURCE_LINE_FORMAT, lineNumber, lineText));
+                    System.out.println(String.format(SOURCE_LINE_FORMAT,
+                                                     lineNumber, lineText));
                     break;
                 }
             }
@@ -152,7 +155,7 @@ public class Pascal {
     /**
      * Listener for parser messages.
      */
-    private class ParseMessageListener implements MessageListener
+    private class ParserMessageListener implements MessageListener
     {
         /**
          * Called by the parser whenever it produces a message.
@@ -170,7 +173,9 @@ public class Pascal {
                     int syntaxErrors = (Integer) body[1];
                     float elapsedTime = (Float) body[2];
 
-                    System.out.printf(PARSER_SUMMARY_FORMAT, statementCount, syntaxErrors, elapsedTime);
+                    System.out.printf(PARSER_SUMMARY_FORMAT,
+                                      statementCount, syntaxErrors,
+                                      elapsedTime);
                     break;
                 }
 
@@ -178,14 +183,14 @@ public class Pascal {
                     Object body[] = (Object []) message.getBody();
                     int lineNumber = (Integer) body[0];
                     int position = (Integer) body[1];
-                    String tokenText =(String) body[2];
+                    String tokenText = (String) body[2];
                     String errorMessage = (String) body[3];
 
                     int spaceCount = PREFIX_WIDTH + position;
                     StringBuilder flagBuffer = new StringBuilder();
 
                     // Spaces up to the error position.
-                    for (int i = 1; i < spaceCount; i++) {
+                    for (int i = 1; i < spaceCount; ++i) {
                         flagBuffer.append(' ');
                     }
 
@@ -194,7 +199,8 @@ public class Pascal {
 
                     // Text, if any, of the bad token.
                     if (tokenText != null) {
-                        flagBuffer.append(" [at \"").append(tokenText).append("\"]");
+                        flagBuffer.append(" [at \"").append(tokenText)
+                            .append("\"]");
                     }
 
                     System.out.println(flagBuffer.toString());
@@ -208,7 +214,7 @@ public class Pascal {
         "\n%,20d statements executed." +
         "\n%,20d runtime errors." +
         "\n%,20.2f seconds total execution time.\n";
-    
+
     private static final String COMPILER_SUMMARY_FORMAT =
         "\n%,20d instructions generated." +
         "\n%,20.2f seconds total code generation time.\n";
@@ -247,7 +253,8 @@ public class Pascal {
                     String variableName = (String) body[1];
                     Object value = body[2];
 
-                    System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
+                    System.out.printf(ASSIGN_FORMAT,
+                                      lineNumber, variableName, value);
                     break;
                 }
 
@@ -258,7 +265,8 @@ public class Pascal {
 
                     System.out.print("*** RUNTIME ERROR");
                     if (lineNumber != null) {
-                        System.out.print(" AT LINE " + String.format("%03d", lineNumber));
+                        System.out.print(" AT LINE " +
+                                         String.format("%03d", lineNumber));
                     }
                     System.out.println(": " + errorMessage);
                     break;
@@ -270,7 +278,9 @@ public class Pascal {
                     int runtimeErrors = (Integer) body[1];
                     float elapsedTime = (Float) body[2];
 
-                    System.out.printf(INTERPRETER_SUMMARY_FORMAT, executionCount, runtimeErrors, elapsedTime);
+                    System.out.printf(INTERPRETER_SUMMARY_FORMAT,
+                                      executionCount, runtimeErrors,
+                                      elapsedTime);
                     break;
                 }
 
@@ -279,10 +289,12 @@ public class Pascal {
                     int instructionCount = (Integer) body[0];
                     float elapsedTime = (Float) body[1];
 
-                    System.out.printf(COMPILER_SUMMARY_FORMAT, instructionCount, elapsedTime);
+                    System.out.printf(COMPILER_SUMMARY_FORMAT,
+                                      instructionCount, elapsedTime);
                     break;
                 }
             }
+
         }
     }
 }

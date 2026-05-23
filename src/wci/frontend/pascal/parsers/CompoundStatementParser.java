@@ -7,14 +7,15 @@ import wci.intermediate.*;
 import static wci.frontend.pascal.PascalTokenType.*;
 import static wci.frontend.pascal.PascalErrorCode.*;
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
+import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
 /**
  * <h1>CompoundStatementParser</h1>
- * 
+ *
  * <p>Parse a Pascal compound statement.</p>
  */
-public class CompoundStatementParser extends StatementParser {
-    
+public class CompoundStatementParser extends StatementParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.

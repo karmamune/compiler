@@ -18,11 +18,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>ConstantDefinitionsParser</h1>
- * 
+ *
  * <p>Parse Pascal constant definitions.</p>
  */
-public class ConstantDefinitionsParser extends DeclarationsParser {
-
+public class ConstantDefinitionsParser extends DeclarationsParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -62,14 +62,16 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
     /**
      * Parse constant definitions.
      * @param token the initial token.
+     * @param parentId the symbol table entry of the parent routine's name.
+     * @return null
      * @throws Exception if an error occurred.
      */
-    public void parse(Token token)
+    public SymTabEntry parse(Token token, SymTabEntry parentId)
         throws Exception
     {
         token = synchronize(IDENTIFIER_SET);
 
-        // Loop to parse sequence of constant definitions
+        // Loop to parse a sequence of constant definitions
         // separated by semicolons.
         while (token.getType() == IDENTIFIER) {
             String name = token.getText().toLowerCase();
@@ -85,6 +87,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
                 errorHandler.flag(token, IDENTIFIER_REDEFINED, this);
                 constantId = null;
             }
+
             token = nextToken();  // consume the identifier token
 
             // Synchronize on the = token.
@@ -110,7 +113,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
                     constantToken.getType() == IDENTIFIER
                         ? getConstantType(constantToken)
                         : getConstantType(value);
-                    constantId.setTypeSpec(constantType);
+                constantId.setTypeSpec(constantType);
             }
 
             token = currentToken();
@@ -131,6 +134,8 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
 
             token = synchronize(IDENTIFIER_SET);
         }
+
+        return null;
     }
 
     /**
@@ -156,6 +161,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
 
         // Parse the constant.
         switch ((PascalTokenType) token.getType()) {
+
             case IDENTIFIER: {
                 return parseIdentifierConstant(token, sign);
             }
@@ -177,7 +183,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
                     errorHandler.flag(token, INVALID_CONSTANT, this);
                 }
 
-                nextToken(); // consume the string
+                nextToken();  // consume the string
                 return (String) token.getValue();
             }
 
@@ -255,7 +261,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
 
     /**
      * Return the type of a constant given its value.
-     * @param value the constant value.
+     * @param value the constant value
      * @return the type specification.
      */
     protected TypeSpec getConstantType(Object value)
@@ -280,7 +286,11 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
         return constantType;
     }
 
-    
+    /**
+     * Return the type of a constant given its identifier.
+     * @param identifier the constant's identifier.
+     * @return the type specification.
+     */
     protected TypeSpec getConstantType(Token identifier)
     {
         String name = identifier.getText().toLowerCase();

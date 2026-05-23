@@ -21,11 +21,11 @@ import static wci.intermediate.typeimpl.TypeFormImpl.*;
 
 /**
  * <h1>CallParser</h1>
- * 
+ *
  * <p>Parse a called to a procedure or function.</p>
  */
-public class CallParser extends StatementParser {
-
+public class CallParser extends StatementParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -36,7 +36,7 @@ public class CallParser extends StatementParser {
     }
 
     /**
-     * Parse a call to declared procedure or function.
+     * Parse a call to a declared procedure or function.
      * @param token the initial token.
      * @return the root node of the generated parse tree.
      * @throws Exception if an error occurred.
@@ -72,7 +72,10 @@ public class CallParser extends StatementParser {
      * @return the PARAMETERS node, or null if there are no actual parameters.
      * @throws Exception if an error occurred.
      */
-    protected ICodeNode parseActualParameters(Token token, SymTabEntry pfId, boolean isDeclared, boolean isReadReadln, boolean isWriteWriteln)
+    protected ICodeNode parseActualParameters(Token token, SymTabEntry pfId,
+                                              boolean isDeclared,
+                                              boolean isReadReadln,
+                                              boolean isWriteWriteln)
         throws Exception
     {
         ExpressionParser expressionParser = new ExpressionParser(this);
@@ -95,7 +98,7 @@ public class CallParser extends StatementParser {
             return null;
         }
 
-        token = nextToken();  // consume openign (
+        token = nextToken();  // consume opening (
 
         // Loop to parse each actual parameter.
         while (token.getType() != RIGHT_PAREN) {
@@ -195,7 +198,8 @@ public class CallParser extends StatementParser {
      * @param formalId the symbol table entry of the formal parameter.
      * @param actualNode the parse tree node of the actual parameter.
      */
-    private void checkActualParameter(Token token, SymTabEntry formalId, ICodeNode actualNode)
+    private void checkActualParameter(Token token, SymTabEntry formalId,
+                                      ICodeNode actualNode)
     {
         Definition formalDefn = formalId.getDefinition();
         TypeSpec formalType = formalId.getTypeSpec();
@@ -222,7 +226,7 @@ public class CallParser extends StatementParser {
      * Parse the field width or the precision for an actual parameter
      * of a call to write or writeln.
      * @param token the current token.
-     * @return the INTEGER_CONSTANT node or null.
+     * @return the INTEGER_CONSTANT node or null
      * @throws Exception if an error occurred.
      */
     private ICodeNode parseWriteSpec(Token token)

@@ -15,11 +15,11 @@ import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 
 /**
  * <h1>WhileStatementParser</h1>
- * 
+ *
  * <p>Parse a Pascal WHILE statement.</p>
  */
-public class WhileStatementParser extends StatementParser {
-
+public class WhileStatementParser extends StatementParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.

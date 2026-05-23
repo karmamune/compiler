@@ -2,10 +2,11 @@ package wci.frontend.pascal;
 
 /**
  * <h1>PascalErrorCode</h1>
- * 
+ *
  * <p>Pascal translation error codes.</p>
  */
-public enum PascalErrorCode {
+public enum PascalErrorCode
+{
     ALREADY_FORWARDED("Already specified in FORWARD"),
     CASE_CONSTANT_REUSED("CASE constant reused"),
     IDENTIFIER_REDEFINED("Redefined identifier"),

@@ -4,14 +4,14 @@ import wci.intermediate.Definition;
 
 /**
  * <h1>DefinitionImpl</h1>
- * 
+ *
  * <p>How a Pascal symbol table entry is defined.</p>
  */
-public enum DefinitionImpl implements Definition {
-
+public enum DefinitionImpl implements Definition
+{
     CONSTANT, ENUMERATION_CONSTANT("enumeration constant"),
     TYPE, VARIABLE, FIELD("record field"),
-    VALUE_PARM("Value parameter"), VAR_PARM("VAR parameter"),
+    VALUE_PARM("value parameter"), VAR_PARM("VAR parameter"),
     PROGRAM_PARM("program parameter"),
     PROGRAM, PROCEDURE, FUNCTION,
     UNDEFINED;

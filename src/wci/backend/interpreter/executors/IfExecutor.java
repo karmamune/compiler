@@ -10,21 +10,25 @@ import static wci.backend.interpreter.RuntimeErrorCode.*;
 
 /**
  * <h1>IfExecutor</h1>
- * 
+ *
  * <p>Execute an IF statement.</p>
  */
-public class IfExecutor extends StatementExecutor {
-
+public class IfExecutor extends StatementExecutor
+{
     /**
      * Constructor.
-     * @param parent the parent executor.
+     * @param the parent executor.
      */
     public IfExecutor(Executor parent)
     {
         super(parent);
     }
 
-
+    /**
+     * Execute an IF statement.
+     * @param node the root node of the statement.
+     * @return null.
+     */
     public Object execute(ICodeNode node)
     {
         // Get the IF node's children.

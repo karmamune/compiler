@@ -15,11 +15,11 @@ import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 
 /**
  * <h1>IfStatementParser</h1>
- * 
+ *
  * <p>Parse a Pascal IF statement.</p>
  */
-public class IfStatementParser extends StatementParser {
-
+public class IfStatementParser extends StatementParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.

@@ -19,11 +19,11 @@ import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
 /**
  * <h1>ExpressionParser</h1>
- * 
+ *
  * <p>Parse a Pascal expression.</p>
  */
-public class ExpressionParser extends StatementParser {
-
+public class ExpressionParser extends StatementParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -35,7 +35,8 @@ public class ExpressionParser extends StatementParser {
 
     // Synchronization set for starting an expression.
     static final EnumSet<PascalTokenType> EXPR_START_SET =
-        EnumSet.of(PLUS, MINUS, IDENTIFIER, INTEGER, REAL, STRING, PascalTokenType.NOT, LEFT_PAREN);
+        EnumSet.of(PLUS, MINUS, IDENTIFIER, INTEGER, REAL, STRING,
+                   PascalTokenType.NOT, LEFT_PAREN);
 
     /**
      * Parse an expression.
@@ -51,7 +52,8 @@ public class ExpressionParser extends StatementParser {
 
     // Set of relational operators.
     private static final EnumSet<PascalTokenType> REL_OPS =
-        EnumSet.of(EQUALS, NOT_EQUALS, LESS_THAN, LESS_EQUALS, GREATER_THAN, GREATER_EQUALS);
+        EnumSet.of(EQUALS, NOT_EQUALS, LESS_THAN, LESS_EQUALS,
+                   GREATER_THAN, GREATER_EQUALS);
 
     // Map relational operator tokens to node types.
     private static final HashMap<PascalTokenType, ICodeNodeType>
@@ -85,7 +87,7 @@ public class ExpressionParser extends StatementParser {
 
         // Look for a relational operator.
         if (REL_OPS.contains(tokenType)) {
-            
+
             // Create a new operator node and adopt the current tree
             // as its first child.
             ICodeNodeType nodeType = REL_OPS_MAP.get(tokenType);
@@ -94,7 +96,7 @@ public class ExpressionParser extends StatementParser {
 
             token = nextToken();  // consume the operator
 
-            // parse the second simple expression.  The operator node adopts
+            // Parse the second simple expression.  The operator node adopts
             // the simple expression's tree as its second child.
             ICodeNode simExprNode = parseSimpleExpression(token);
             opNode.addChild(simExprNode);
@@ -138,7 +140,7 @@ public class ExpressionParser extends StatementParser {
     /**
      * Parse a simple expression.
      * @param token the initial token.
-     * @return the root of the generated parse subtree.
+     * @return the root node of the generated parse tree.
      * @throws Exception if an error occurred.
      */
     private ICodeNode parseSimpleExpression(Token token)
@@ -160,7 +162,7 @@ public class ExpressionParser extends StatementParser {
         TypeSpec resultType = rootNode != null ? rootNode.getTypeSpec()
                                                : Predefined.undefinedType;
 
-        // Type check: leading sign.
+        // Type check: Leading sign.
         if ((signType != null) && (!TypeChecker.isIntegerOrReal(resultType))) {
             errorHandler.flag(signToken, INCOMPATIBLE_TYPES, this);
         }
@@ -213,7 +215,8 @@ public class ExpressionParser extends StatementParser {
 
                     // Both real operands or one real and one integer operand
                     // ==> real result.
-                    else if (TypeChecker.isAtLeastOneReal(resultType, termType)) {
+                    else if (TypeChecker.isAtLeastOneReal(resultType,
+                                                          termType)) {
                         resultType = Predefined.realType;
                     }
 
@@ -260,11 +263,11 @@ public class ExpressionParser extends StatementParser {
         MULT_OPS_OPS_MAP.put(PascalTokenType.MOD, ICodeNodeTypeImpl.MOD);
         MULT_OPS_OPS_MAP.put(PascalTokenType.AND, ICodeNodeTypeImpl.AND);
     };
-    
+
     /**
      * Parse a term.
      * @param token the initial token.
-     * @return the root of the generated parse subtree.
+     * @return the root node of the generated parse tree.
      * @throws Exception if an error occurred.
      */
     private ICodeNode parseTerm(Token token)
@@ -291,7 +294,7 @@ public class ExpressionParser extends StatementParser {
             token = nextToken();  // consume the operator
 
             // Parse another factor.  The operator node adopts
-            // the term's tree as its second child
+            // the term's tree as its second child.
             ICodeNode factorNode = parseFactor(token);
             opNode.addChild(factorNode);
             TypeSpec factorType = factorNode != null ? factorNode.getTypeSpec()
@@ -302,6 +305,7 @@ public class ExpressionParser extends StatementParser {
 
             // Determine the result type.
             switch ((PascalTokenType) operator) {
+
                 case STAR: {
                     // Both operands integer ==> integer result.
                     if (TypeChecker.areBothInteger(resultType, factorType)) {
@@ -310,7 +314,8 @@ public class ExpressionParser extends StatementParser {
 
                     // Both real operands or one real and one integer operand
                     // ==> real result.
-                    else if (TypeChecker.isAtLeastOneReal(resultType, factorType)) {
+                    else if (TypeChecker.isAtLeastOneReal(resultType,
+                                                          factorType)) {
                         resultType = Predefined.realType;
                     }
 
@@ -374,7 +379,7 @@ public class ExpressionParser extends StatementParser {
     /**
      * Parse a factor.
      * @param token the initial token.
-     * @return the root of the generated parse subtree.
+     * @return the root node of the generated parse tree.
      * @throws Exception if an error occurred.
      */
     private ICodeNode parseFactor(Token token)
@@ -431,10 +436,10 @@ public class ExpressionParser extends StatementParser {
             case NOT: {
                 token = nextToken();  // consume the NOT
 
-                // Create a Not node as the root node.
+                // Create a NOT node as the root node.
                 rootNode = ICodeFactory.createICodeNode(ICodeNodeTypeImpl.NOT);
 
-                // Parse the factor. The NOT node adopts the
+                // Parse the factor.  The NOT node adopts the
                 // factor node as its child.
                 ICodeNode factorNode = parseFactor(token);
                 rootNode.addChild(factorNode);
@@ -446,13 +451,13 @@ public class ExpressionParser extends StatementParser {
                 if (!TypeChecker.isBoolean(factorType)) {
                     errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
                 }
-                
+
                 rootNode.setTypeSpec(Predefined.booleanType);
                 break;
             }
 
             case LEFT_PAREN: {
-                token = nextToken();  // consume the (
+                token = nextToken();      // consume the (
 
                 // Parse an expression and make its node the root node.
                 rootNode = parseExpression(token);
@@ -475,7 +480,6 @@ public class ExpressionParser extends StatementParser {
 
             default: {
                 errorHandler.flag(token, UNEXPECTED_TOKEN, this);
-                break;
             }
         }
 
@@ -508,6 +512,7 @@ public class ExpressionParser extends StatementParser {
         Definition defnCode = id.getDefinition();
 
         switch ((DefinitionImpl) defnCode) {
+
             case CONSTANT: {
                 Object value = id.getAttribute(CONSTANT_VALUE);
                 TypeSpec type = id.getTypeSpec();

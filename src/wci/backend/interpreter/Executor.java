@@ -11,11 +11,11 @@ import static wci.message.MessageType.INTERPRETER_SUMMARY;
 
 /**
  * <h1>Executor</h1>
- * 
- * <p>The executor for an interpreter back end.
+ *
+ * <p>The executor for an interpreter back end.</p>
  */
-public class Executor extends Backend {
-
+public class Executor extends Backend
+{
     protected static int executionCount;
     protected static RuntimeErrorHandler errorHandler;
 
@@ -31,7 +31,7 @@ public class Executor extends Backend {
 
     /**
      * Constructor for subclasses.
-     * @param parent the parent executor.
+     * @param the parent executor.
      */
     public Executor(Executor parent)
     {
@@ -72,6 +72,8 @@ public class Executor extends Backend {
 
         // Send the interpreter summary message.
         sendMessage(new Message(INTERPRETER_SUMMARY,
-                                new Number[] {executionCount, runtimeErrors, elapsedTime}));
+                                new Number[] {executionCount,
+                                              runtimeErrors,
+                                              elapsedTime}));
     }
 }

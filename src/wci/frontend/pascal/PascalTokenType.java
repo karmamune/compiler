@@ -7,7 +7,7 @@ import wci.frontend.TokenType;
 
 /**
  * <h1>PascalTokenType</h1>
- * 
+ *
  * <p>Pascal token types.</p>
  */
 public enum PascalTokenType implements TokenType
@@ -72,12 +72,13 @@ public enum PascalTokenType implements TokenType
         }
     }
 
-    // Hash table of Pascal special symbols. Each special symbol's text
+    // Hash table of Pascal special symbols.  Each special symbol's text
     // is the key to its Pascal token type.
-    public static Hashtable<String, PascalTokenType> SPECIAL_SYMBOLS = new Hashtable<String, PascalTokenType>();
+    public static Hashtable<String, PascalTokenType> SPECIAL_SYMBOLS =
+        new Hashtable<String, PascalTokenType>();
     static {
         PascalTokenType values[] = PascalTokenType.values();
-        for (int i = FIRST_SPECIAL_INDEX; i <= LAST_SPECIAL_INDEX; i++) {
+        for (int i = FIRST_SPECIAL_INDEX; i <= LAST_SPECIAL_INDEX; ++i) {
             SPECIAL_SYMBOLS.put(values[i].getText(), values[i]);
         }
     }

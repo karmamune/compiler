@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 /**
  * <h1>SymTabEntry</h1>
- * 
- * <p>The interface for a symbol table netry</p>
+ *
+ * <p>The interface for a symbol table entry.</p>
  */
-public interface SymTabEntry {
-
+public interface SymTabEntry
+{
     /**
      * Getter.
      * @return the name of the entry.
@@ -17,7 +17,7 @@ public interface SymTabEntry {
 
     /**
      * Getter.
-     * @return the name of the entry.
+     * @return the symbol table that contains this entry.
      */
     public SymTab getSymTab();
 
@@ -38,7 +38,7 @@ public interface SymTabEntry {
      * @param typeSpec the type specification to set.
      */
     public void setTypeSpec(TypeSpec typeSpec);
-    
+
     /**
      * Getter.
      * @return the type specification.

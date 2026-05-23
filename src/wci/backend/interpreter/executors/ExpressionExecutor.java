@@ -14,20 +14,20 @@ import static wci.backend.interpreter.RuntimeErrorCode.*;
 
 /**
  * <h1>ExpressionExecutor</h1>
- * 
- * <p>Execute an expression.<p>
+ *
+ * <p>Execute an expression.</p>
  */
-public class ExpressionExecutor extends StatementExecutor {
-
+public class ExpressionExecutor extends StatementExecutor
+{
     /**
      * Constructor.
-     * @param parent the parent executor.
+     * @param the parent executor.
      */
     public ExpressionExecutor(Executor parent)
     {
         super(parent);
     }
-    
+
     /**
      * Execute an expression.
      * @param node the root intermediate code node of the compound statement.
@@ -48,7 +48,7 @@ public class ExpressionExecutor extends StatementExecutor {
 
             case INTEGER_CONSTANT: {
 
-                // Return the interger value.
+                // Return the integer value.
                 return (Integer) node.getAttribute(VALUE);
             }
 
@@ -81,6 +81,7 @@ public class ExpressionExecutor extends StatementExecutor {
             }
 
             case NOT: {
+
                 // Get the NOT node's expression node child.
                 ArrayList<ICodeNode> children = node.getChildren();
                 ICodeNode expressionNode = children.get(0);
@@ -105,7 +106,8 @@ public class ExpressionExecutor extends StatementExecutor {
      * @param nodeType the node type.
      * @return the computed value of the expression.
      */
-    private Object executeBinaryOperator(ICodeNode node, ICodeNodeTypeImpl nodeType)
+    private Object executeBinaryOperator(ICodeNode node,
+                                         ICodeNodeTypeImpl nodeType)
     {
         // Get the two operand children of the operator node.
         ArrayList<ICodeNode> children = node.getChildren();
@@ -158,7 +160,7 @@ public class ExpressionExecutor extends StatementExecutor {
                         }
                     }
 
-                    case MOD: {
+                    case MOD:  {
 
                         // Check for division by zero.
                         if (value2 != 0) {
@@ -172,8 +174,10 @@ public class ExpressionExecutor extends StatementExecutor {
                 }
             }
             else {
-                float value1 = operand1 instanceof Integer ? (Integer) operand1 : (Float) operand1;
-                float value2 = operand2 instanceof Integer ? (Integer) operand2 : (Float) operand2;
+                float value1 = operand1 instanceof Integer
+                                   ? (Integer) operand1 : (Float) operand1;
+                float value2 = operand2 instanceof Integer
+                                   ? (Integer) operand2 : (Float) operand2;
 
                 // Float operations.
                 switch (nodeType) {
@@ -210,9 +214,9 @@ public class ExpressionExecutor extends StatementExecutor {
             }
         }
 
-        // ===================
-        // Relational operatos
-        // ===================
+        // ====================
+        // Relational operators
+        // ====================
 
         else if (integerMode) {
             int value1 = (Integer) operand1;
@@ -229,8 +233,10 @@ public class ExpressionExecutor extends StatementExecutor {
             }
         }
         else {
-            float value1 = operand1 instanceof Integer ? (Integer) operand1 : (Float) operand1;
-            float value2 = operand2 instanceof Integer ? (Integer) operand2 : (Float) operand2;
+            float value1 = operand1 instanceof Integer
+                               ? (Integer) operand1 : (Float) operand1;
+            float value2 = operand2 instanceof Integer
+                               ? (Integer) operand2 : (Float) operand2;
 
             // Float operands.
             switch (nodeType) {

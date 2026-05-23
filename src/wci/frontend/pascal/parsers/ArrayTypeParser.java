@@ -18,11 +18,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>ArrayTypeParser</h1>
- * 
+ *
  * <p>Parse a Pascal array type specification.</p>
  */
-public class ArrayTypeParser extends TypeSpecificationParser {
-
+class ArrayTypeParser extends TypeSpecificationParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -40,7 +40,7 @@ public class ArrayTypeParser extends TypeSpecificationParser {
         LEFT_BRACKET_SET.add(RIGHT_BRACKET);
     }
 
-    // Syncrhonization set for the ] token.
+    // Synchronization set for the ] token.
     private static final EnumSet<PascalTokenType> RIGHT_BRACKET_SET =
         EnumSet.of(RIGHT_BRACKET, OF, SEMICOLON);
 
@@ -185,8 +185,10 @@ public class ArrayTypeParser extends TypeSpecificationParser {
 
         // Check the index type and set the element count.
         if (form == SUBRANGE) {
-            Integer minValue = (Integer) indexType.getAttribute(SUBRANGE_MIN_VALUE);
-            Integer maxValue = (Integer) indexType.getAttribute(SUBRANGE_MAX_VALUE);
+            Integer minValue =
+                (Integer) indexType.getAttribute(SUBRANGE_MIN_VALUE);
+            Integer maxValue =
+                (Integer) indexType.getAttribute(SUBRANGE_MAX_VALUE);
 
             if ((minValue != null) && (maxValue != null)) {
                 count = maxValue - minValue + 1;

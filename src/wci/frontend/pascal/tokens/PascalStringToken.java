@@ -10,11 +10,11 @@ import static wci.frontend.pascal.PascalErrorCode.*;
 
 /**
  * <h1>PascalStringToken</h1>
- * 
- * <p>Pascal string tokens.</p>
+ *
+ * <p> Pascal string tokens.</p>
  */
-public class PascalStringToken extends PascalToken {
-
+public class PascalStringToken extends PascalToken
+{
     /**
      * Constructor.
      * @param source the source from where to fetch the token's characters.
@@ -52,12 +52,12 @@ public class PascalStringToken extends PascalToken {
                 currentChar = nextChar();  // consume character
             }
 
-            // Quote? Each pair of adjacent quotes represents a single-quote.
+            // Quote?  Each pair of adjacent quotes represents a single-quote.
             if (currentChar == '\'') {
                 while ((currentChar == '\'') && (peekChar() == '\'')) {
                     textBuffer.append("''");
-                    valueBuffer.append(currentChar);  // append single-quote
-                    currentChar = nextChar();         // consume pair of quotes
+                    valueBuffer.append(currentChar); // append single-quote
+                    currentChar = nextChar();        // consume pair of quotes
                     currentChar = nextChar();
                 }
             }

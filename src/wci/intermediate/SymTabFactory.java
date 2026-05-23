@@ -4,11 +4,11 @@ import wci.intermediate.symtabimpl.*;
 
 /**
  * <h1>SymTabFactory</h1>
- * 
+ *
  * <p>A factory for creating objects that implement the symbol table.</p>
  */
-public class SymTabFactory {
-
+public class SymTabFactory
+{
     /**
      * Create and return a symbol table stack implementation.
      * @return the symbol table implementation.

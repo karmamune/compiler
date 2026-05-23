@@ -7,20 +7,25 @@ import wci.backend.interpreter.*;
 
 /**
  * <h1>CompoundExecutor</h1>
- * 
+ *
  * <p>Execute a compound statement.</p>
  */
-public class CompoundExecutor extends StatementExecutor {
-
+public class CompoundExecutor extends StatementExecutor
+{
     /**
      * Constructor.
-     * @param parent the parent executor.
+     * @param the parent executor.
      */
     public CompoundExecutor(Executor parent)
     {
         super(parent);
     }
 
+    /**
+     * Execute a compound statement.
+     * @param node the root node of the compound statement.
+     * @return null.
+     */
     public Object execute(ICodeNode node)
     {
         // Loop over the children of the COMPOUND node and execute each child.

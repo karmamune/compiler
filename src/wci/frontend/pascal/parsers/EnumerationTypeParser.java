@@ -18,11 +18,11 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 
 /**
  * <h1>EnumerationTypeParser</h1>
- * 
+ *
  * <p>Parse a Pascal enumeration type specification.</p>
  */
-public class EnumerationTypeParser extends TypeSpecificationParser {
-
+public class EnumerationTypeParser extends TypeSpecificationParser
+{
     /**
      * Constructor.
      * @param parent the parent parser.
@@ -54,13 +54,14 @@ public class EnumerationTypeParser extends TypeSpecificationParser {
     {
         TypeSpec enumerationType = TypeFactory.createType(ENUMERATION);
         int value = -1;
-        ArrayList<SymTabEntry>constants = new ArrayList<SymTabEntry>();
+        ArrayList<SymTabEntry> constants = new ArrayList<SymTabEntry>();
 
         token = nextToken();  // consume the opening (
-        
+
         do {
             token = synchronize(ENUM_CONSTANT_START_SET);
-            parseEnumerationIdentifier(token, ++value, enumerationType, constants);
+            parseEnumerationIdentifier(token, ++value, enumerationType,
+                                       constants);
 
             token = currentToken();
             TokenType tokenType = token.getType();
@@ -74,7 +75,7 @@ public class EnumerationTypeParser extends TypeSpecificationParser {
                 }
             }
             else if (ENUM_CONSTANT_START_SET.contains(tokenType)) {
-                errorHandler.flag(token, MISSING_IDENTIFIER, this);
+                errorHandler.flag(token, MISSING_COMMA, this);
             }
         } while (!ENUM_DEFINITION_FOLLOW_SET.contains(token.getType()));
 
@@ -93,13 +94,15 @@ public class EnumerationTypeParser extends TypeSpecificationParser {
     /**
      * Parse an enumeration identifier.
      * @param token the current token.
-     * @param value the identifier's integer value (squence number).
+     * @param value the identifier's integer value (sequence number).
      * @param enumerationType the enumeration type specification.
      * @param constants the array of symbol table entries for the
      * enumeration constants.
      * @throws Exception if an error occurred.
      */
-    private void parseEnumerationIdentifier(Token token, int value, TypeSpec enumerationType, ArrayList<SymTabEntry> constants)
+    private void parseEnumerationIdentifier(Token token, int value,
+                                            TypeSpec enumerationType,
+                                            ArrayList<SymTabEntry> constants)
         throws Exception
     {
         TokenType tokenType = token.getType();

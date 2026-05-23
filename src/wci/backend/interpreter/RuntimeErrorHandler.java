@@ -9,17 +9,17 @@ import static wci.message.MessageType.RUNTIME_ERROR;
 
 /**
  * <h1>RuntimeErrorHandler</h1>
- * 
- * <p>Runtime error hanlder for the backend interpreter.</p>
+ *
+ * <p>Runtime error handler for the backend interpreter.</p>
  */
-public class RuntimeErrorHandler {
-
+public class RuntimeErrorHandler
+{
     private static final int MAX_ERRORS = 5;
 
-    private static int errorCount = 0;  // count of runtime errors
+    private static int errorCount = 0;    // count of runtime errors
 
     /**
-     * Getter.
+     * Getter
      * @return the count of runtime errors.
      */
     public static int getErrorCount()
@@ -33,7 +33,8 @@ public class RuntimeErrorHandler {
      * @param errorCode the runtime error code.
      * @param backend the backend processor.
      */
-    public void flag(ICodeNode node, RuntimeErrorCode errorCode, Backend backend)
+    public void flag(ICodeNode node, RuntimeErrorCode errorCode,
+                     Backend backend)
     {
         String lineNumber = null;
 
@@ -43,7 +44,10 @@ public class RuntimeErrorHandler {
         }
 
         // Notify the interpreter's listeners.
-        backend.sendMessage(new Message(RUNTIME_ERROR, new Object[] {errorCode.toString(), (Integer) node.getAttribute(LINE)}));
+        backend.sendMessage(
+            new Message(RUNTIME_ERROR,
+                        new Object[] {errorCode.toString(),
+                                      (Integer) node.getAttribute(LINE)}));
 
         if (++errorCount > MAX_ERRORS) {
             System.out.println("*** ABORTED AFTER TOO MANY RUNTIME ERRORS.");
