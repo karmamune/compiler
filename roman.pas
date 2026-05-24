@@ -40,4 +40,3 @@ BEGIN
         y := 2*y;
     UNTIL y > 5000;
 END.
-
