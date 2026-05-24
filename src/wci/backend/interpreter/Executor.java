@@ -13,6 +13,7 @@ import wci.message.*;
 
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
+import static wci.backend.interpreter.DebuggerType.*;
 import static wci.message.MessageType.INTERPRETER_SUMMARY;
 
 /**
@@ -29,27 +30,35 @@ public class Executor extends Backend
     protected static Scanner standardIn;       // standard input
     protected static PrintWriter standardOut;  // standard output
 
+    protected Debugger debugger;  // interactive source-level debugger
+
     static {
         executionCount = 0;
         runtimeStack = MemoryFactory.createRuntimeStack();
         errorHandler = new RuntimeErrorHandler();
-
-        try {
-            standardIn = new PascalScanner(
-                             new Source(
-                                 new BufferedReader(
-                                     new InputStreamReader(System.in))));
-            standardOut = new PrintWriter(
-                              new PrintStream(System.out));
-        }
-        catch (IOException ignored) {
-        }
+        standardOut = new PrintWriter(new PrintStream(System.out));
     }
 
     /**
      * Constructor.
      */
-    public Executor() {}
+    public Executor(String inputPath)
+    {
+        try {
+            standardIn = inputPath != null
+                             ? new PascalScanner(
+                                   new Source(
+                                       new BufferedReader(
+                                           new FileReader(inputPath))))
+                             : new PascalScanner(
+                                   new Source(
+                                       new BufferedReader(
+                                           new InputStreamReader(System.in))));
+        }
+        catch (IOException ignored) {}
+
+        debugger = BackendFactory.createDebugger(GUI, this, runtimeStack);
+    }
 
     /**
      * Constructor for subclasses.
@@ -58,6 +67,7 @@ public class Executor extends Backend
     public Executor(Executor parent)
     {
         super();
+        this.debugger = parent.debugger;
     }
 
     /**

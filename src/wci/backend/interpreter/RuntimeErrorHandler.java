@@ -6,6 +6,7 @@ import wci.message.*;
 
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 import static wci.message.MessageType.RUNTIME_ERROR;
+import static wci.message.MessageType.INTERPRETER_SUMMARY;
 
 /**
  * <h1>RuntimeErrorHandler</h1>
@@ -50,7 +51,11 @@ public class RuntimeErrorHandler
                                       (Integer) node.getAttribute(LINE)}));
 
         if (++errorCount > MAX_ERRORS) {
-            System.out.println("*** ABORTED AFTER TOO MANY RUNTIME ERRORS.");
+            backend.sendMessage(
+                new Message(
+                    INTERPRETER_SUMMARY,
+                    new Object[] {"ABORTED AFTER TOO MANY RUNTIME ERRORS.",
+                                  (Integer) node.getAttribute(LINE)}));
             System.exit(-1);
         }
     }

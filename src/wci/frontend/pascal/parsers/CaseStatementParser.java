@@ -21,9 +21,6 @@ import static wci.intermediate.typeimpl.TypeFormImpl.ENUMERATION;
  * <h1>CaseStatementParser</h1>
  *
  * <p>Parse a Pascal CASE statement.</p>
- *
- * <p>Copyright (c) 2009 by Ronald Mak</p>
- * <p>For instructional purposes only.  No warranties.</p>
  */
 public class CaseStatementParser extends StatementParser
 {
