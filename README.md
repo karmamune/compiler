@@ -11,13 +11,7 @@ The goal of this project is to understand the inner workings of a compiler by im
 * **Intermediate:** Intermediate Code (ICode) and Symbol Table (SymTab).
 * **Backend:** Interpreter (Executor) and Code Generator.
 
-I am currently working through the chapters, starting with the basic framework and the Pascal-based syntax analysis.
-
-### Technologies Used:
-* **Language:** Java
-* **IDE:** VS Code
-* **OS:** Linux
-* **Version Control:** Git & GitHub
+Project completed / on indefinite pause.
 
 ---
 
@@ -30,10 +24,4 @@ El objetivo principal es comprender el funcionamiento interno de un compilador m
 * **Intermediate:** Código intermedio (ICode) y Tabla de Símbolos (SymTab).
 * **Backend:** Intérprete (Executor) y Generador de Código.
 
-Actualmente me encuentro desarrollando los capítulos iniciales, estableciendo el framework base y el análisis de sintaxis para un subconjunto del lenguaje Pascal.
-
-### Tecnologías utilizadas:
-* **Lenguaje:** Java
-* **IDE:** VS Code
-* **Sistema Operativo:** Linux
-* **Control de Versiones:** Git & GitHub
+Proyecto finalizado / en pausa indefinida.
